@@ -1,0 +1,29 @@
+@import "../../../assets/scss/index";
+
+.ui.OrderItem {
+  .list {
+    text-align: left;
+  }
+
+  .extra.content {
+    display: flex;
+    justify-content: center;
+
+    .ui.input input {
+      width: 75px;
+      border-radius: 0 !important;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .ui.button {
+      &.negative {
+        border-radius: 5px 0 0 5px;
+      }
+
+      &.positive {
+        border-radius: 0 5px 5px 0;
+      }
+    }
+  }
+}

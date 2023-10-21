@@ -1,0 +1,75 @@
+@import "../../../assets/scss/index";
+
+.ui.sidebar.ReceiptSidebar {
+  width: 400px !important;
+  padding: 20px 50px;
+  text-align: center;
+
+  .Item {
+    .ItemLabel {
+      display: flex;
+      justify-content: space-between;
+      margin: 12px 0;
+    }
+
+    &.Indented {
+      margin-left: 20px;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .Total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.3rem;
+    margin: 10px 0 20px 0;
+  }
+
+  .Actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    .CheckStock, .Clear {
+      flex-basis: calc(50% - 10px);
+
+      .label {
+        width: 80px;
+      }
+  
+      &:hover:not(:disabled) {
+        .label {
+          left: calc((100% - 105px) / 2);
+        }
+  
+        .IconContainer {
+          right: calc((100% - 105px) / 2);
+        }
+      }
+    }
+
+    .ConfirmContainer {
+      flex-basis: 100%;
+
+      .Confirm {
+        .label {
+          width: 100px;
+        }
+    
+        &:hover:not(:disabled) {
+          .label {
+            left: calc((100% - 125px) / 2);
+          }
+    
+          .IconContainer {
+            right: calc((100% - 125px) / 2);
+          }
+        }
+      }
+    }
+  }
+}

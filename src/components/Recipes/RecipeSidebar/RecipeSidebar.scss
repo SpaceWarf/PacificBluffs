@@ -1,0 +1,86 @@
+@import "../../../assets/scss/index";
+
+.ui.sidebar.RecipeSidebar {
+  width: 400px !important;
+  padding: 20px 50px;
+  text-align: center;
+
+  .ui.checkbox.toggle {
+    margin-bottom: 20px;
+
+    label {
+      color: $text-colour-contrast !important;
+    }
+
+    input:not(:checked) ~ label:before {
+      background-color: rgba($text-colour-contrast, 0.25) !important;
+    }
+
+    input:checked ~ label:before {
+      background-color: $primary-colour !important;
+    }
+  }
+
+  .Item {
+    .ItemLabel {
+      display: flex;
+      justify-content: space-between;
+      margin: 5px 0;
+      padding: 7px 10px;
+      border-radius: 5px;
+
+      p {
+        margin: 0;
+      }
+
+      &.Dropdown {
+        cursor: pointer;
+
+        &:hover {
+          background-color: $sidebar-background-colour-light;
+        }
+      }
+
+      i {
+        margin-left: -25px;
+        transition: transform 0.1s ease-in-out;
+        line-height: 1rem;
+
+        &.Open {
+          transform: rotate(90deg);
+          transform-origin: center center;
+        }
+      }
+    }
+
+    .RecipeItemLabel {
+      margin-left: 20px;
+    }
+  }
+
+  .Actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+
+    .Clear {
+      // flex-basis: calc(50% - 10px);
+
+      .label {
+        width: 80px;
+      }
+  
+      &:hover:not(:disabled) {
+        .label {
+          left: calc((100% - 105px) / 2);
+        }
+  
+        .IconContainer {
+          right: calc((100% - 105px) / 2);
+        }
+      }
+    }
+  }
+}

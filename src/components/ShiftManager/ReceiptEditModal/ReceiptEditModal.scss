@@ -1,0 +1,36 @@
+@import "../../../assets/scss/index";
+
+.EditReceiptModalTrigger {
+  height: 25px !important;
+}
+
+.ReceiptEditModal {
+  .ui.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  
+    .OrderItems {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+  
+      .AddItemButton {
+        width: 100px;
+        height: 50px;
+  
+        i {
+          font-size: 1.5rem;
+          line-height: 1.5rem;
+        }
+      }
+  
+      .menu {
+        margin-top: 5px;
+      }
+    }
+  }
+}

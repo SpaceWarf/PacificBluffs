@@ -1,0 +1,7 @@
+.ui.loader {
+  padding-left: $sidebar-width !important;
+
+  &::before, &::after {
+    margin-left: calc(($sidebar-width / 2) - 25px) !important;
+  }
+}

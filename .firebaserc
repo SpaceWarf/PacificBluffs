@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "pacific-bluffs-portal-dev",
+    "prod": "pacific-bluffs-portal",
+    "dev": "pacific-bluffs-portal-dev"
+  },
+  "targets": {},
+  "etags": {}
+}

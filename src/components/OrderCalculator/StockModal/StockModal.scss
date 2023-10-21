@@ -1,0 +1,63 @@
+@import "../../../assets/scss/index";
+
+.StockModal.Modal.ui.modal {
+  .ErrorMessage {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+
+    .icon {
+      margin-right: 5px;
+    }
+
+    .MissingIngredients {
+      margin: 5px 0 0 25px;
+    }
+  }
+
+  .warning {
+    color: $yellow;
+  }
+
+  .error {
+    color: $red;
+  }
+
+  .success {
+    color: $green;
+  }
+
+  .actions {
+    button.negative.hover-animation {
+      .label {
+        width: 35px;
+      }
+  
+      &:hover:not(:disabled) {
+        .label {
+          left: calc((100% - 60px) / 2);
+        }
+  
+        .IconContainer {
+          right: calc((100% - 60px) / 2);
+        }
+      }
+    }
+
+    button.positive.hover-animation {
+      .label {
+        width: 90px;
+      }
+  
+      &:hover:not(:disabled) {
+        .label {
+          left: calc((100% - 115px) / 2);
+        }
+  
+        .IconContainer {
+          right: calc((100% - 115px) / 2);
+        }
+      }
+    }
+  }
+}

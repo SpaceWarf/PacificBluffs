@@ -1,0 +1,40 @@
+.Header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .HeaderDecoration {
+    width: 100px;
+    height: auto;
+    margin-top: 12px;
+
+    &.right {
+      margin-left: 10px;
+      transform: scaleX(-1);
+    }
+
+    &.left {
+      margin-right: 10px;
+    }
+  }
+
+  .ui.header {
+    font-family: Caveat !important;
+    font-size: 3rem !important;
+    color: $text-colour !important;
+    margin: 0;
+  
+    &.contrast {
+      color: $text-colour-contrast !important;
+    }
+  }
+}
+
+p {
+  margin: 0;
+  color: $text-colour;
+
+  &.contrast {
+    color: $text-colour-contrast;
+  }
+}

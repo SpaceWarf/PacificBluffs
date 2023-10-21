@@ -1,0 +1,116 @@
+@import "../../assets/scss/index";
+
+.Login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-image: url(../../assets/images/login-background-dark.jpg);
+  background-color: $secondary-colour;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+
+  .ui.card {
+    width: 60%;
+    height: 70%;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 #d4d4d52c, 0 0 0 1px #d4d4d52c;
+
+    &>.content {
+      display: flex;
+      padding: 0;
+
+      .ImageContainer {
+        flex-basis: 50%;
+        background-color: black;
+        background-image: url(../../assets/images/facade.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center top;
+      }
+
+      .FormContainer {
+        padding: 25px;
+        flex-basis: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: black;
+
+        .Header {
+          flex-basis: 33.33%;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          align-items: center;
+
+          img {
+            width: 125px;
+            height: auto;
+          }
+
+          h3 {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 2.2rem !important;
+          }
+        }
+
+        &>.Body {
+          flex-basis: 33.33%;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+
+          .ui.form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 60%;
+
+            .ui.input {
+              color: white !important;
+            }
+
+            .field-label {
+              background-color: black;
+            }
+          }
+
+          .ui.negative.message {
+            position: absolute;
+            bottom: 0;
+            transform: translateY(50%);
+            width: 60%;
+            box-shadow: none;
+            border: 1px solid $red;
+
+            p {
+              color: $red-dark !important;
+            }
+          }
+        }
+
+        .Footer {
+          flex-basis: 33.33%;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .quote {
+            color: $gray-pale;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}

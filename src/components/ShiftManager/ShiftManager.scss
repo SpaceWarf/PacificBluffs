@@ -1,0 +1,28 @@
+@import "../../assets/scss/index";
+
+.ShiftManager {
+  .DataSection {
+    display: flex;
+    justify-content: space-around;
+    gap: 25px;
+
+    .CurrentShift, .PreviousShifts {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+
+      .Header {
+        margin: 20px 0;
+      }
+
+      .ui.card {
+        width: 100%;
+      }
+    }
+
+    .CurrentShift {
+      max-width: 600px;
+    }
+  }
+}

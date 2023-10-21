@@ -1,0 +1,11 @@
+@import "../../assets/scss/index";
+
+.Inventory {
+  .MenuItems, .Ingredients {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding: 25px 0;
+  }
+}

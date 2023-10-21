@@ -1,0 +1,24 @@
+$primary-colour: #ff65c3;
+$primary-colour-light: lighten($primary-colour, 10%);
+$primary-colour-lighter: lighten($primary-colour, 20%);
+$primary-colour-dark: darken($primary-colour, 20%);
+
+$secondary-colour: black;
+
+$text-colour: black;
+$text-colour-contrast: white;
+
+$background-colour: white;
+$sidebar-background-colour: $secondary-colour;
+$sidebar-background-colour-light: lighten($sidebar-background-colour, 10%);
+
+$gray-pale: #c6c6c6;
+$red: #DD1C1A;
+$red-dark: darken($red, 10%);
+$red-light: lighten($red, 10%);
+$green: #08A045;
+$green-dark: darken($green, 10%);
+$yellow: #F29E4C;
+
+$sidebar-width: 250px;
+$sidebar-width-collapsed: 75px;

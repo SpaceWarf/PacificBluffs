@@ -1,0 +1,33 @@
+@import 'config';
+@import 'field';
+@import 'sidebar';
+@import 'logo';
+@import 'loading';
+@import 'text';
+@import 'button';
+@import 'card';
+@import 'profile-card';
+@import 'clocked-in-label';
+@import 'stats-card';
+@import 'chart';
+@import 'modal';
+
+* {
+    box-sizing: border-box;
+}
+
+#root {
+    height: 100%;
+}
+
+.ComingSoon, .NotFoundLabel {
+    display: flex;
+    font-weight: bold;
+    font-size: 2rem;
+    justify-content: center;
+    align-items: center;
+
+    i {
+        margin: 5px 10px 0 0 !important;
+    }
+}

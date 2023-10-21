@@ -1,0 +1,48 @@
+@import "../../../assets/scss/index";
+
+.CurrentShift {
+  .ui.card.CurrentShiftCard {
+
+    &.WithOrders {
+      border-radius: .28571429rem .28571429rem 0 0;
+    }
+
+    .content {
+      .ClockedOutLabel {
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+  
+      button {
+        &.hover-animation {
+          .label {
+            width: 65px;
+          }
+      
+          &:hover:not(:disabled) {
+            .label {
+              left: calc((100% - 90px) / 2);
+            }
+      
+            .IconContainer {
+              right: calc((100% - 90px) / 2);
+            }
+          }
+        }
+      }
+    }
+  
+    .Duration p {
+      font-size: 1.2rem;
+    }
+  
+    .Profit {
+      font-size: 1.1rem;
+    }
+  }
+
+  .ui.accordion.ReceiptsDisplay {
+    z-index: 1;
+    border-radius: 0 0 .28571429rem .28571429rem;
+  }
+}

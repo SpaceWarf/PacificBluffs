@@ -1,0 +1,10 @@
+.Logo {
+  &.interactive {
+    cursor: pointer;
+  }
+
+  img {
+    width: 75px;
+    border-radius: 50%;
+  }
+}

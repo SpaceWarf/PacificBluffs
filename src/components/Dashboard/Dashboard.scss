@@ -1,0 +1,108 @@
+@import "../../assets/scss/index";
+
+.Dashboard {
+  .Header {
+    margin-bottom: 10px;
+  }
+
+  .Stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+
+    .Row {
+      display: flex;
+      gap: 20px;
+
+      &:first-child {
+        height: 465px;
+      }
+
+      &:not(:first-child) {
+        height: 335px;
+      }
+    }
+
+    .Charts {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-basis: 100%;
+
+      .OrdersChartCard,
+      .ShiftsChartCard {
+        flex-basis: 50%;
+      }
+    }
+
+    .Current {
+      display: flex;
+      justify-content: center;
+      flex-basis: 20%;
+
+      .ui.card {
+        width: 100%;
+        min-width: 230px;
+      }
+    }
+
+    .Seperator {
+      height: 100%;
+      width: 1px;
+      min-width: 1px;
+      background-color: rgba($color: #000000, $alpha: 0.25);
+      z-index: 99;
+    }
+
+    .Lifetime {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-basis: 15%;
+
+      .ui.card {
+        width: 100%;
+        min-width: 220px;
+      }
+    }
+
+    .Lists {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-basis: 65%;
+
+      .ui.card {
+        width: 32.5%;
+        min-width: 250px;
+  
+        &.LongestShifts {
+          width: 35%;
+          min-width: 320px;
+        }
+      }
+    }
+
+    ol, ul{
+      margin-bottom: 0;
+    }
+
+    .ListItem {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 20px;
+
+      .Date {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .Links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+}

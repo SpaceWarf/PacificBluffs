@@ -1,0 +1,107 @@
+.field {
+  position: relative;
+  margin-bottom: 0 !important;
+  border: 1px solid $gray-pale;
+  border-radius: 6px;
+
+  .field-label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    margin: 0;
+    color: $gray-pale;
+    background-color: $background-colour;
+    padding: 0 5px;
+    transition-duration: 0.3s;
+  }
+
+  .input {
+    border: none !important;
+    background-color: transparent !important;
+    padding-right: 30px !important;
+  }
+
+  .dropdown {
+    border: none !important;
+    background-color: transparent !important;
+
+    &.multiple .ui.label {
+      margin-top: 5px;
+    }
+  }
+
+  &.input i {
+    line-height: 1rem;
+  }
+
+  &.readonly, &.readonly * {
+    cursor: copy;
+  }
+
+  &:hover:not(.disabled):not(.error):not(.readonly), &:focus-within:not(.error):not(.readonly) {
+    border-color: $primary-colour;
+
+    .field-label {
+      color: $primary-colour;
+    }
+
+    &.input i {
+      color: $primary-colour;
+    }
+  }
+
+  &:focus-within .field-label, .field-label.resized {
+    top: 0;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+  }
+
+  &.input i {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: $gray-pale
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    pointer-events: all !important;
+  }
+
+  &.error {
+    border-color: $red;
+
+    .field-label {
+      color: $red;
+    }
+
+    .input {
+      color: $text-colour !important;
+    }
+
+    i {
+      color: $red;
+    }
+  }
+
+  .ui.basic.label {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(110%, -50%);
+    z-index: 99;
+
+    &.red {
+      color: $red !important;
+      border-color: $red !important;
+    }
+
+    &.green {
+      color: $green !important;
+      border-color: $green !important;
+    }
+  }
+}

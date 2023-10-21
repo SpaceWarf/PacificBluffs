@@ -1,0 +1,88 @@
+button.ui.button {
+  margin: 0;
+  background-color: $primary-colour;
+  color: $text-colour;
+
+  &.negative {
+    background-color: $red !important;
+
+    &:hover:not(:disabled) {
+      background-color: $red-dark !important;
+    }
+  }
+
+  &.positive {
+    background-color: $green !important;
+
+    &:hover:not(:disabled) {
+      background-color: $green-dark !important;
+    }
+  }
+  
+  &:hover:not(:disabled) {
+    background-color: $primary-colour-dark;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    pointer-events: all !important;
+    background-color: $primary-colour-light;
+  }
+
+  .icon {
+    margin: 0 !important;
+  }
+
+  &.icon {
+    background-color: transparent !important;
+    font-size: 1.2rem;
+    padding: 0;
+    color: $primary-colour !important;
+    width: 25px;
+    height: 25px;
+
+    &:hover {
+      color: $primary-colour-dark !important;
+    }
+  }
+}
+
+button.hover-animation {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 37px;
+  border-radius: 6px;
+  overflow: hidden;
+
+  .label {
+    position: absolute;
+    width: 40px;
+    margin: 0 !important;
+    left: 50%;
+    transform: translateX(-50%);
+    transition-duration: 0.3s;
+  }
+
+  .IconContainer {
+    position: absolute;
+    width: 25px;
+    right: 0;
+    transform: translateX(100%);
+    transition-duration: 0.3s;
+  }
+
+  &:hover:not(:disabled) {
+    .label {
+      left: calc((100% - 65px) / 2);
+      transform: translateX(0);
+    }
+
+    .IconContainer {
+      right: calc((100% - 65px) / 2);
+      transform: translateX(0);
+    }
+  }
+}

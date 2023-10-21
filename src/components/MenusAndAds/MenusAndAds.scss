@@ -1,0 +1,46 @@
+@import "../../assets/scss/index";
+
+.MenusAndAds {
+  display: flex;
+  justify-content: space-evenly;
+
+  .Header {
+    margin-bottom: 20px;
+  }
+
+  .Preview {
+    cursor: pointer;
+
+    img {
+      height: auto;
+    }
+  }
+
+  .Menus,
+  .Ads {
+    position: relative;
+
+    .ui.pointing.label.CopyLabel {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translate(110%, -220%);
+      z-index: 99;
+    }
+
+    .Preview {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // background-color: $gray-pale;
+      // border: 1px solid black;
+
+      img {
+        max-width: 500px;
+        max-height: 625px;
+        width: auto;
+      }
+    }
+  }
+}

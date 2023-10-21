@@ -1,0 +1,18 @@
+@import "../../assets/scss/index";
+
+.OrderCalculator {
+  margin-right: 400px;
+
+  .Section{
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .MenuItems, .Combos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    margin: 25px 0;
+  }
+}

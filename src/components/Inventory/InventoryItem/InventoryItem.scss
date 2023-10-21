@@ -1,0 +1,88 @@
+@import "../../../assets/scss/index";
+
+.InventoryItem {
+  .extra.content {
+    position: relative !important;
+    height: 60px;
+    overflow: hidden;
+
+    .ToggleContent {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      transition-duration: 0.3s;
+
+      &.left:not(.visible) {
+        transform: translateX(-100%);
+      }
+  
+      &.right {
+        transform: translateX(100%);
+  
+        &.visible {
+          transform: translateX(0);
+        }
+      }
+    }
+
+    .InStock, .LowStock, .OutOfStock {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      font-weight: bold;
+      font-size: 1.2rem;
+  
+      i {
+        line-height: 16px;
+      }
+    }
+  
+    .InStock > i, .InStock p{
+      color: $green;
+    }
+  
+    .LowStock > i, .LowStock p{
+      color: $yellow;
+    }
+  
+    .OutOfStock > i, .OutOfStock p {
+      color: $red;
+    }
+  
+    .Form {
+      display: flex;
+      justify-content: center;
+    
+      .ui.input {
+        width: 40%;
+  
+        input {
+          border-radius: 5px 0 0 5px;
+          text-align: center;
+          font-weight: bold;
+        }
+      }
+  
+      .ui.button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+
+        &.negative {
+          border-radius: 0;
+        }
+  
+        &.positive {
+          border-radius: 0 5px 5px 0;
+        }
+      }
+    }
+  }
+}

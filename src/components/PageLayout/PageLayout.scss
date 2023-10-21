@@ -1,0 +1,16 @@
+@import "../../assets/scss/index";
+
+.PageLayout {
+  height: 100%;
+  overflow: scroll;
+
+  .PageContent {
+    margin-left: $sidebar-width;
+    padding: 20px;
+    transition: margin 0.2s ease-in-out !important;
+
+    &.collapsed {
+      margin-left: $sidebar-width-collapsed;
+    }
+  }
+}

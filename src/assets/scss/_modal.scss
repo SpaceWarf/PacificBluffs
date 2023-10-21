@@ -1,0 +1,42 @@
+.ui.modal.Modal {
+  .actions {
+    display: flex;
+    gap: 10px;
+
+    .button {
+      margin: 0;
+    }
+
+    button.positive.hover-animation {
+      .label {
+        width: 55px;
+      }
+  
+      &:hover:not(:disabled) {
+        .label {
+          left: calc((100% - 80px) / 2);
+        }
+  
+        .IconContainer {
+          right: calc((100% - 80px) / 2);
+        }
+      }
+    }
+
+    button.negative.hover-animation {
+      .label {
+        width: 45px;
+      }
+  
+      &:hover:not(:disabled) {
+        .label {
+          left: calc((100% - 70px) / 2);
+        }
+  
+        .IconContainer {
+          right: calc((100% - 70px) / 2);
+        }
+      }
+    }
+  }
+}
