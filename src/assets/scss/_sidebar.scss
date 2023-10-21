@@ -1,151 +1,235 @@
 .ui.sidebar {
-  width: $sidebar-width !important;
   background-color: $sidebar-background-colour !important;
-  overflow: visible !important;
-  position: relative;
-  transition: width 0.2s ease-in-out !important;
-  white-space: nowrap;
+  width: auto !important;
 
-  &.collapsed {
-    width: $sidebar-width-collapsed !important;
+  .CollapseContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 5px;
 
-    .Header {
-      height: 85px;
-      padding: 20px 10px 0 10px;
+    .button.Collapse {
+      border-radius: 50%;
+      color: $text-colour-contrast !important;
 
-      .Logo {
-        img {
-          width: 50px;
-          transition: width 0.1s ease-in-out;
-        }
-
-        &:hover img {
-          width: 55px;
-        }
-      }
-
-      h4 {
-        display: none;
+      &:hover {
+        color: $primary-colour !important;
       }
     }
+  }
+
+  .SidebarContent {
+    width: $sidebar-width !important;
+    overflow: visible !important;
+    position: relative;
+    transition: width 0.2s ease-in-out !important;
+    white-space: nowrap;
+    flex: 1 1 0;
 
     .SidebarItem {
-      justify-content: center;
-    
-      i {
-        font-size: 1.2rem;
-        margin: 0;
-      }
-
-      span {
-        display: none;
-      }
-    }
-
-    .ClockedInLabel {
-      position: absolute;
-      right: 5px;
-
-      p {
-        display: none;
-      }
-    }
-    
-    .button.Collapse {
-      right: 0px;
-      top: 0px;
-    }
-  }
-
-  .SidebarItem {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    margin: 0;
-    height: 50px;
-    color: $text-colour-contrast;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $sidebar-background-colour-light;
-    }
-
-    i {
-      line-height: 1em;
-      margin-right: 10px;
-    }
-
-    &.active {
-      background-color: $sidebar-background-colour-light;
-      font-weight: bold;
-      color: $primary-colour;
-    }
-
-    img {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-
-    .Label {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      margin: 0;
+      height: 50px;
+      color: $text-colour-contrast;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $sidebar-background-colour-light;
+      }
+
+      i,
+      img {
+        line-height: 1em;
+        margin-right: 10px;
+      }
+
+      &.active {
+        background-color: $sidebar-background-colour-light;
+        font-weight: bold;
+        color: $primary-colour;
+      }
+
+      img {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+      }
+
+      .Label {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .Divider {
+      height: 1px;
+      background-color: $sidebar-background-colour-light;
+      margin: 5px 0;
+    }
+
+    .BounceSideways {
+      animation: bounce-sideways 0.7s ease;
+    }
+
+    @keyframes bounce-sideways {
+
+      0%,
+      50%,
+      100% {
+        transform: translateX(0);
+      }
+
+      30% {
+        transform: translateX(-15px);
+      }
+
+      80% {
+        transform: translateX(-5px);
+      }
+    }
+
+    .Header {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 135px;
+      padding: 0 10px 0 10px;
+
+      .Logo {
+        width: 100px;
+      }
+    }
+
+    .Footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
     }
   }
 
-  .Divider {
-    height: 1px;
-    background-color: $sidebar-background-colour-light;
-    margin: 5px 0;
-  }
+  &.collapsed {
+    .SidebarContent {
+      width: $sidebar-width-collapsed !important;
 
-  .BounceSideways {
-    animation: bounce-sideways 0.7s ease;
-  }
+      .Header {
+        height: 85px;
+        padding: 0 10px 10px 10px;
 
-  @keyframes bounce-sideways {
-    0%, 50%, 100% {transform: translateX(0);}
-    30% {transform: translateX(-15px);}
-    80% {transform: translateX(-5px);}
-  }
+        .Logo {
+          width: 50px;
+        }
+      }
 
-  .Header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 10px;
+      .SidebarItem {
+        justify-content: center;
 
-    .Title {
-      margin: 0;
-      font-size: 1.5rem !important;
-      cursor: pointer;
-      transition-duration: 0.3s;
-      line-height: 1.75rem;
+        i,
+        img {
+          font-size: 1.2rem;
+          margin: 0;
+        }
 
-      &:hover, &.hovered {
-        font-size: 1.75rem !important;
+        span {
+          display: none;
+        }
+      }
+
+      &:not(:hover) .ClockedInLabel {
+        position: absolute;
+        right: 5px;
+
+        p {
+          display: none;
+        }
+      }
+
+      .button.Collapse {
+        right: 0px;
+        top: 0px;
+      }
+
+      &:hover {
+        width: $sidebar-width !important;
+
+        .SidebarItem {
+          justify-content: space-between;
+
+          i,
+          img {
+            font-size: 1rem;
+            margin-right: 10px;
+          }
+
+          span {
+            display: initial;
+          }
+        }
       }
     }
   }
 
-  .Footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-  }
 
-  .button.Collapse {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    border-radius: 50%;
-    color: $text-colour-contrast !important;
-    
-    &:hover {
-      color: $primary-colour !important;
+  @media only screen and (max-width: 1600px) {
+    .SidebarContent {
+      width: $sidebar-width-collapsed !important;
+
+      .Header {
+        height: 85px;
+        padding: 0 10px 10px 10px;
+
+        .Logo {
+          width: 50px !important;
+        }
+      }
+
+      .SidebarItem {
+        justify-content: center !important;
+
+        i,
+        img {
+          font-size: 1.2rem;
+          margin: 0 !important;
+        }
+
+        span {
+          display: none;
+        }
+      }
+
+      &:not(:hover) .ClockedInLabel {
+        position: absolute;
+        right: 5px;
+
+        p {
+          display: none;
+        }
+      }
+
+      &:hover {
+        width: $sidebar-width !important;
+
+        .SidebarItem {
+          justify-content: space-between !important;
+
+          i,
+          img {
+            font-size: 1rem;
+            margin-right: 10px !important;
+          }
+
+          span {
+            display: initial;
+          }
+        }
+      }
+    }
+
+    .button.Collapse {
+      display: none;
     }
   }
 }
