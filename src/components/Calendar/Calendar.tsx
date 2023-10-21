@@ -31,7 +31,7 @@ function EventCalendar() {
 
   useEffect(() => {
     const fetchWebhook = async () => {
-      setWebhook(await getWebhookById('event-update'));
+      setWebhook(await getWebhookById('events-update'));
     }
 
     if (isAdmin || profile.info.roles.includes('event-assistant')) {
