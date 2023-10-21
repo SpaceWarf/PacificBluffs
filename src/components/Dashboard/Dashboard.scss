@@ -79,21 +79,47 @@
           flex-direction: column;
           gap: 20px;
         }
+
+        .BiggestTips {
+          .header p {
+            display: flex;
+            gap: 10px
+          }
+
+          .TipIcon {
+            position: relative;
+            width: 1.18em;
+
+            .heart {
+              position: absolute;
+              top: 0;
+              right: -7px;
+              font-size: 0.6rem;
+              line-height: 0.8rem;
+            }
+          }
+        }
       }
     }
 
     ol,
     ul {
       margin-bottom: 0;
+      padding-left: 20px;
     }
 
     .ListItem {
       display: flex;
       justify-content: space-between;
-      margin: 0 20px;
+      align-items: flex-end;
+      margin-left: 5px;
 
       .Date {
         font-size: 0.9rem;
+      }
+
+      p.Item {
+        margin: 0;
       }
     }
   }
