@@ -12,3 +12,7 @@ export function getFoodItems(state: RootState): MenuItem[] {
 export function getDrinksItems(state: RootState): MenuItem[] {
   return state.menuItems.items.filter(menuItem => menuItem.type === MenuItemType.DRINK);
 }
+
+export function getStoreItems(state: RootState): MenuItem[] {
+  return state.menuItems.items.filter(menuItem => menuItem.type === MenuItemType.STORE);
+}

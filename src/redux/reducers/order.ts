@@ -8,11 +8,13 @@ export interface Quantity {
 export interface OrderState {
   items: Quantity[];
   combos: Quantity[];
+  services: Quantity[];
 }
 
 const initialState: OrderState = {
   items: [],
   combos: [],
+  services: [],
 };
 
 export const orderSlice = createSlice({
@@ -37,12 +39,22 @@ export const orderSlice = createSlice({
         state.combos.push({ id, quantity });
       }
     },
+    setServiceQuantity: (state, action: PayloadAction<Quantity>) => {
+      const { id, quantity } = action.payload;
+      const serviceIndex = state.services.findIndex((i) => i.id === id);
+      if (serviceIndex !== -1) {
+        state.services[serviceIndex].quantity = quantity;
+      } else {
+        state.services.push({ id, quantity });
+      }
+    },
     clearOrder: (state) => {
       state.items = [];
       state.combos = [];
+      state.services = [];
     },
   },
 });
 
-export const { setItemQuantity, setComboQuantity, clearOrder } = orderSlice.actions;
+export const { setItemQuantity, setComboQuantity, setServiceQuantity, clearOrder } = orderSlice.actions;
 export default orderSlice.reducer;
