@@ -16,6 +16,17 @@
     transition-duration: 0.3s;
   }
 
+  &.textarea .field-label {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    margin: 0;
+    color: $gray-pale;
+    background-color: $background-colour;
+    padding: 0 5px;
+    transition-duration: 0.3s;
+  }
+
   .input {
     border: none !important;
     background-color: transparent !important;
@@ -35,11 +46,13 @@
     line-height: 1rem;
   }
 
-  &.readonly, &.readonly * {
+  &.readonly,
+  &.readonly * {
     cursor: copy;
   }
 
-  &:hover:not(.disabled):not(.error):not(.readonly), &:focus-within:not(.error):not(.readonly) {
+  &:hover:not(.disabled):not(.error):not(.readonly),
+  &:focus-within:not(.error):not(.readonly) {
     border-color: $primary-colour;
 
     .field-label {
@@ -51,7 +64,8 @@
     }
   }
 
-  &:focus-within .field-label, .field-label.resized {
+  &:focus-within .field-label,
+  .field-label.resized {
     top: 0;
     transform: translateY(-50%);
     font-size: 0.8rem;
@@ -78,7 +92,8 @@
       color: $red;
     }
 
-    .input {
+    .input,
+    .textarea {
       color: $text-colour !important;
     }
 

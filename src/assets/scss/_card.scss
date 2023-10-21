@@ -1,4 +1,15 @@
 .ui.card {
   text-align: center;
   margin: 0 !important;
+
+  &.external {
+    .header {
+      display: flex !important;
+      justify-content: space-between;
+
+      p {
+        margin: 0;
+      }
+    }
+  }
 }

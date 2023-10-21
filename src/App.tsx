@@ -13,6 +13,7 @@ import PageLayout from './components/PageLayout/PageLayout';
 import Employees from './components/Employees/Employees';
 import Statistics from './components/Statistics/Statistics';
 import MenusAndAds from './components/MenusAndAds/MenusAndAds';
+import EventCalendar from './components/Calendar/Calendar';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path='/recipes' element={<Recipes />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/menus-ads' element={<MenusAndAds />} />
+            <Route path='/calendar' element={<EventCalendar />} />
             <Route element={<AdminRoute />}>
               <Route path='/employees' element={<Employees />} />
               <Route path='/statistics' element={<Statistics />} />
@@ -43,13 +45,13 @@ function App() {
 
 //@ts-ignore
 function ProtectedRoute({ children }) {
-  const {user} = useAuth();
+  const { user } = useAuth();
   return !!user ? children : <Navigate to="/login" replace />;
 };
 
 //@ts-ignore
 function AdminRoute() {
-  const {isAdmin} = useAuth();
+  const { isAdmin } = useAuth();
   return isAdmin ? <Outlet /> : <Navigate to="/" replace />;
 };
 

@@ -1,6 +1,6 @@
 .ui.card.StatsCard {
   height: 100px;
-  width: 250px;
+  width: 100%;
 
   .content {
     display: flex;
@@ -14,7 +14,7 @@
 
     .TipIcon {
       position: relative;
-    
+
       .heart {
         position: absolute;
         top: -3px;

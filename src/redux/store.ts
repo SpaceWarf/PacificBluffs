@@ -9,6 +9,7 @@ import recipesReducer from './reducers/recipes';
 import menusAndAdsReducer from './reducers/menusAndAds';
 import divisions from "./reducers/divisions";
 import roles from "./reducers/roles";
+import events from "./reducers/events";
 
 const rootReducer = (state: any, action: AnyAction) => {
   if (action.type === 'RESET') {
@@ -26,6 +27,7 @@ const rootReducer = (state: any, action: AnyAction) => {
     menusAndAds: menusAndAdsReducer,
     divisions: divisions,
     roles: roles,
+    events: events,
   })(state, action);
 }
 

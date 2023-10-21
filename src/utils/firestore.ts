@@ -5,9 +5,21 @@ import { ProfileInfo } from "../redux/reducers/profile";
 import { Shift } from "../redux/reducers/shifts";
 import { Receipt } from "../redux/reducers/receipts";
 import { MenuOrAdType, MenusAndAdsState } from "../redux/reducers/menusAndAds";
-import { Unsubscribe } from "firebase/auth";
+import { Unsubscribe, User } from "firebase/auth";
 import { Division } from "../redux/reducers/divisions";
 import { Role } from "../redux/reducers/roles";
+import { CalendarEvent, CalendarEventUpdate } from "../state/event";
+import { Webhook } from "../state/webhook";
+
+export interface FirestoreEntity {
+  createdAt?: string;
+  createdBy?: string;
+  updatedAt?: string;
+  updatedBy?: string;
+  deleted?: boolean;
+  deletedAt?: string;
+  deletedBy?: string;
+}
 
 const menuItemsRef = collection(db, "menu-items");
 const combosRef = collection(db, "combos");
@@ -18,6 +30,7 @@ const receiptsRef = collection(db, "receipts");
 const menusAndAdsRef = collection(db, "menus-and-ads");
 const rolesRef = collection(db, "roles");
 const divisionRef = collection(db, "divisions");
+const eventsRef = collection(db, "events");
 
 export async function getMenuItems(): Promise<MenuItem[]> {
   const snapshot = await getDocs(menuItemsRef);
@@ -310,4 +323,66 @@ export async function getRoles(): Promise<Role[]> {
     roles.push({ id: doc.id, ...doc.data() });
   });
   return roles;
+}
+
+
+export async function getEvents(): Promise<CalendarEvent[]> {
+  const snapshot = await getDocs(eventsRef);
+  const wars: CalendarEvent[] = [];
+  snapshot.forEach((doc: DocumentData) => {
+    const data = doc.data();
+    if (!data.deleted) {
+      wars.push({ id: doc.id, ...data });
+    }
+  });
+  return wars;
+}
+
+export function onEventsSnapshot(cb: (wars: CalendarEvent[]) => void): Unsubscribe {
+  return onSnapshot(eventsRef, {}, snapshot => {
+    const wars: CalendarEvent[] = [];
+    snapshot.forEach((doc: DocumentData) => {
+      const data = doc.data();
+      if (!data.deleted) {
+        wars.push({ id: doc.id, ...data });
+      }
+    });
+    cb(wars);
+  });
+}
+
+export async function createEvent(event: CalendarEventUpdate, user: User | null): Promise<CalendarEvent> {
+  const now = new Date().toISOString();
+  const doc = await addDoc(eventsRef, {
+    ...event,
+    createdAt: now,
+    createdBy: user?.email ?? '',
+  });
+  return {
+    id: doc.id,
+    ...event,
+  };
+}
+
+export async function updateEvent(id: string, update: CalendarEventUpdate, user: User | null): Promise<void> {
+  const now = new Date().toISOString();
+  await updateDoc(doc(db, "events", id), {
+    ...update,
+    updatedAt: now,
+    updatedBy: user?.email ?? '',
+  });
+}
+
+export async function deleteEvent(id: string, user: User | null): Promise<void> {
+  const now = new Date().toISOString();
+  await updateDoc(doc(db, "events", id), {
+    deleted: true,
+    deletedAt: now,
+    deletedBy: user?.email ?? '',
+  });
+}
+
+export async function getWebhookById(id: string): Promise<Webhook> {
+  const snapshot = await getDoc(doc(db, "webhooks", id));
+  return { id: snapshot.id, ...snapshot.data() } as Webhook;
 }

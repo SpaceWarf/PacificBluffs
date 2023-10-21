@@ -15,7 +15,9 @@ import {
   onReceiptsForEmployeeSnapshot,
   onMenusAndAdsSnapshot,
   getDivisions,
-  getRoles
+  getRoles,
+  getEvents,
+  onEventsSnapshot
 } from "../utils/firestore";
 import { Dispatch } from "react";
 import { AnyAction } from "@reduxjs/toolkit";
@@ -28,6 +30,7 @@ import { setShifts } from "../redux/reducers/shifts";
 import { getProfilePictureUrl } from "../utils/storage";
 import { setRoles } from "../redux/reducers/roles";
 import { setDivisions } from "../redux/reducers/divisions";
+import { setEvents } from "../redux/reducers/events";
 
 export const loadingSubject = new BehaviorSubject<boolean>(true);
 
@@ -42,6 +45,7 @@ export async function loadData(id: string, dispatch: Dispatch<AnyAction>) {
     menusAndAds,
     divisions,
     roles,
+    events,
   ] = await Promise.all([
     getMenuItems(),
     getCombos(),
@@ -52,6 +56,7 @@ export async function loadData(id: string, dispatch: Dispatch<AnyAction>) {
     getMenusAndAds(),
     getDivisions(),
     getRoles(),
+    getEvents(),
   ]);
   dispatch(setMenuItems(menuItems));
   dispatch(setCombos(combos));
@@ -63,6 +68,7 @@ export async function loadData(id: string, dispatch: Dispatch<AnyAction>) {
   dispatch(setAds(menusAndAds.ads));
   dispatch(setRoles(roles));
   dispatch(setDivisions(divisions));
+  dispatch(setEvents(events));
 
   if (profile.pfp) {
     const url = await getProfilePictureUrl(profile.pfp);
@@ -79,6 +85,7 @@ export async function loadData(id: string, dispatch: Dispatch<AnyAction>) {
     dispatch(setMenus(menusAndAds.menus));
     dispatch(setAds(menusAndAds.ads));
   });
+  onEventsSnapshot(events => dispatch(setEvents(events)));
 
   loadingSubject.next(false);
 }

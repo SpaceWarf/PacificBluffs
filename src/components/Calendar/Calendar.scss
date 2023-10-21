@@ -1,0 +1,66 @@
+@import 'react-big-calendar/lib/sass/styles';
+@import "../../assets/scss/index";
+
+.Calendar {
+  height: 100%;
+
+  .content {
+    height: calc(100% - 55px);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .Actions {
+      position: absolute;
+      right: 0;
+      top: -5px;
+
+      button.positive.hover-animation {
+        width: 300px;
+
+        .label {
+          width: 65px;
+        }
+
+        &:hover:not(:disabled) {
+          .label {
+            left: calc((100% - 90px) / 2);
+          }
+
+          .IconContainer {
+            right: calc((100% - 90px) / 2);
+          }
+        }
+      }
+    }
+
+    .rbc-calendar {
+      flex: 1 1 0;
+
+      .rbc-toolbar-label {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.AddEventModal,
+.EditEventModal,
+.ViewEventModal {
+  .ui.form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 25px;
+
+    .Row {
+      display: flex;
+      gap: 15px;
+
+      &>*:not(.toggle) {
+        flex: 1;
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+@import "../../../assets/scss/index";
+
+.AddEventModal {
+  .field-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex: 1 1 0;
+  }
+
+  .error {
+    margin-top: 10px;
+    color: $red;
+  }
+}

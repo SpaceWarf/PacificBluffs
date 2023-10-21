@@ -1,0 +1,31 @@
+.ViewEventModal.ui.modal {
+  .header {
+    display: flex;
+    justify-content: space-between;
+
+    .Title {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 5px;
+
+      .Label {
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+      }
+    }
+
+    .Actions {
+      display: flex;
+      gap: 5px;
+    }
+  }
+
+  .Poster {
+    display: block;
+    max-width: calc(50% - 10px);
+    width: auto;
+    height: auto;
+  }
+}

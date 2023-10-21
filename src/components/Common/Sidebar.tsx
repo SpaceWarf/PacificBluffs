@@ -38,6 +38,7 @@ function Sidebar({ onCollapse, collapsed }: SidebarProps) {
         </div>
         <div className="Nav">
           <SidebarItem name='Dashboard' icon='chart bar' path='/' onClick={() => navigate('/')} />
+          <SidebarItem name='Calendar' icon='calendar alternate' path='/calendar' onClick={() => navigate('/calendar')} />
           <SidebarItem name='Shifts' icon='clock' path='/shifts' onClick={() => navigate('/shifts')}>
             <ClockedInLabel clockedIn={clockedIn} contrast />
           </SidebarItem>

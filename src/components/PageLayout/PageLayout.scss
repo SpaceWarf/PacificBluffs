@@ -5,11 +5,16 @@
   overflow: scroll;
 
   .PageContent {
+    height: 100%;
     margin-left: $sidebar-width;
     padding: 20px;
     transition: margin 0.2s ease-in-out !important;
 
     &.collapsed {
+      margin-left: $sidebar-width-collapsed;
+    }
+
+    @media only screen and (max-width: 1600px) {
       margin-left: $sidebar-width-collapsed;
     }
   }

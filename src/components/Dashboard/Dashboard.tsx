@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import { ProfileInfo } from '../../redux/reducers/profile';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../redux/store';
+import UpcomingEventsCard from './UpcomingEventsCard/UpcomingEventsCard';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -67,24 +68,13 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div className='Stats content'>
-        <div className='Row'>
-          <div className='Charts'>
-            <div className='ui card ShiftsChartCard'>
-              <div className='content'>
-                <ShiftsChart />
-              </div>
-            </div>
-            <div className='ui card OrdersChartCard'>
-              <div className='content'>
-                <OrdersChart />
-              </div>
-            </div>
+      <div className='content'>
+        <div className='Col'>
+          <div className='Row'>
+            <UpcomingEventsCard />
           </div>
-        </div>
-        <div className='Row'>
-          <div className='Current'>
-            <div className='ui card OnShift'>
+          <div className='Row'>
+            <div className='ui card OnShift full-width'>
               <div className='content'>
                 <div className='header'>
                   Employees On Shift
@@ -107,26 +97,39 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div className='Seperator'></div>
-          <div className='Lifetime'>
-            <StatsCard
-              title={currencyFormat(lifetimeProfits)}
-              description='Lifetime Profits'
-              icon='dollar'
-            />
-            <StatsCard
-              title={currencyFormat(lifetimeTips)}
-              description='Lifetime Tips'
-              icon='tip'
-            />
-            <StatsCard
-              title={`${lifetimeHoursWorked} hours`}
-              description='Lifetime Hours Worked'
-              icon='clock'
-            />
+        </div>
+        <div className='Col'>
+          <div className='Row'>
+            <div className='ui card ShiftsChartCard half-width'>
+              <div className='content'>
+                <ShiftsChart />
+              </div>
+            </div>
+            <div className='ui card OrdersChartCard half-width'>
+              <div className='content'>
+                <OrdersChart />
+              </div>
+            </div>
           </div>
-          <div className='Lists'>
-            <div className='ui card BiggestOrders'>
+          <div className='Row'>
+            <div className='Lifetime quarter-width'>
+              <StatsCard
+                title={currencyFormat(lifetimeProfits)}
+                description='Lifetime Profits'
+                icon='dollar'
+              />
+              <StatsCard
+                title={currencyFormat(lifetimeTips)}
+                description='Lifetime Tips'
+                icon='tip'
+              />
+              <StatsCard
+                title={`${lifetimeHoursWorked} hours`}
+                description='Lifetime Hours Worked'
+                icon='clock'
+              />
+            </div>
+            <div className='ui card BiggestOrders quarter-width'>
               <div className='content'>
                 <div className='header'>
                   Biggest Orders
@@ -149,7 +152,7 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-            <div className='ui card BiggestOrders'>
+            <div className='ui card BiggestOrders quarter-width'>
               <div className='content'>
                 <div className='header'>
                   Biggest Tips
@@ -172,7 +175,7 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-            <div className='ui card LongestShifts'>
+            <div className='ui card LongestShifts quarter-width'>
               <div className='content'>
                 <div className='header'>
                   Longest Shifts
@@ -198,7 +201,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
