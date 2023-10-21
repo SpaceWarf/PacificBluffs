@@ -19,7 +19,7 @@ function OrdersChart() {
       const today = new Date();
       today.setDate(today.getDate() + 1);
       const weeklyStats: DailyStat[] = [];
-  
+
       for (let i = 0; i < 7; i++) {
         const day = new Date(today.setDate(today.getDate() - 1));
         const ordersForDay = receiptsForLastWeek.filter(receipt => {
@@ -31,7 +31,7 @@ function OrdersChart() {
           amount: ordersForDay.reduce((acc, receipt) => acc + receipt.total + receipt.tip, 0)
         });
       }
-  
+
       return weeklyStats.reverse();
     }
 
@@ -41,7 +41,7 @@ function OrdersChart() {
   return (
     <div className='OrdersChart Chart'>
       <p className='Title'>Profit Per Day (Last 7 Days)</p>
-      <ResponsiveContainer width='100%' height={400}>
+      <ResponsiveContainer width='100%' height={350}>
         <BarChart
           data={data}
           barSize={50}
@@ -55,7 +55,7 @@ function OrdersChart() {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis angle={-45} textAnchor='end' dataKey="date" />
           <YAxis tickFormatter={YAxisFormatter} />
-          <Tooltip content={<CustomTooltip />}/>
+          <Tooltip content={<CustomTooltip />} />
           <Bar dataKey="amount" fill="#dcb77d" />
         </BarChart>
       </ResponsiveContainer>

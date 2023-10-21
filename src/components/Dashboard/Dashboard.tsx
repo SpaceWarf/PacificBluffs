@@ -12,9 +12,13 @@ import StatsCard from '../Common/StatsCard';
 import { getProfilesClockedIn } from '../../utils/firestore';
 import { useEffect, useState } from 'react';
 import { ProfileInfo } from '../../redux/reducers/profile';
-import Header from '../Common/Header';
+import { useNavigate } from 'react-router-dom';
+import { RootState } from '../../redux/store';
 
 function Dashboard() {
+  const navigate = useNavigate();
+  const profile = useSelector((state: RootState) => state.profile);
+  const { roles } = useSelector((state: RootState) => state.roles);
   const biggestReceipts = useSelector(getBiggestReceipts);
   const longestShifts = useSelector(getLongestShifts);
   const biggestTipReceipts = useSelector(getBiggestTipReceipts);
@@ -40,10 +44,30 @@ function Dashboard() {
     return () => clearInterval(interval);
   }, []);
 
+  const getRoles = (): string[] => {
+    const foundRoles: string[] = [];
+    profile.info.roles.forEach(roleId => {
+      const foundRole = roles.find(role => role.id === roleId);
+      if (foundRole) {
+        foundRoles.push(foundRole.name);
+      }
+    });
+    return foundRoles;
+  }
+
   return (
     <div className="Dashboard">
-      <Header text="Dashboard" decorated />
-      <div className='Stats'>
+      <div className='PageHeader'>
+        <div className='UserInfo' onClick={() => navigate('/profile')}>
+          {!profile.pfpUrl && <i className='user circle icon'></i>}
+          {profile.pfpUrl && <img src={profile.pfpUrl} alt="Profile" />}
+          <div>
+            <h1 className='Name'>{profile.info.name}</h1>
+            <h4 className='Division'>{getRoles().join(', ')}</h4>
+          </div>
+        </div>
+      </div>
+      <div className='Stats content'>
         <div className='Row'>
           <div className='Charts'>
             <div className='ui card ShiftsChartCard'>

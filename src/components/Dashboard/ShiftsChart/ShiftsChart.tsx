@@ -19,7 +19,7 @@ function ShiftsChart() {
       const today = new Date();
       today.setDate(today.getDate() + 1);
       const weeklyStats: DailyStat[] = [];
-  
+
       for (let i = 0; i < 7; i++) {
         const day = new Date(today.setDate(today.getDate() - 1));
         const shiftsForDay = shiftsForLastWeek.filter(shift => {
@@ -33,7 +33,7 @@ function ShiftsChart() {
           }, 0)
         });
       }
-  
+
       return weeklyStats.reverse();
     }
 
@@ -43,7 +43,7 @@ function ShiftsChart() {
   return (
     <div className='ShiftsChart Chart'>
       <p className='Title'>Hours Worked Per Day (Last 7 Days)</p>
-      <ResponsiveContainer width='100%' height={400}>
+      <ResponsiveContainer width='100%' height={350}>
         <BarChart
           data={data}
           barSize={50}
@@ -57,7 +57,7 @@ function ShiftsChart() {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis angle={-45} textAnchor='end' dataKey="date" />
           <YAxis tickFormatter={YAxisFormatter} />
-          <Tooltip content={<CustomTooltip />}/>
+          <Tooltip content={<CustomTooltip />} />
           <Bar dataKey="amount" fill="#dcb77d" />
         </BarChart>
       </ResponsiveContainer>
