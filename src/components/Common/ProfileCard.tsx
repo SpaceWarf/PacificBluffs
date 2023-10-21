@@ -225,7 +225,9 @@ function ProfileCard({ profile, editable, nameAsTitle }: ProfileCardProps) {
       <div className="ui card attached">
         <div className="content">
           <div className='ProfilePicture'>
-            <img src={getProfilePicture()} alt="Profile" />
+            <div>
+              <img src={getProfilePicture()} alt="Profile" />
+            </div>
             {editable && <div className='UploadOverlay'>
               <i className='upload icon'></i>
             </div>}
