@@ -2,7 +2,6 @@ import ProfilePlaceholder from '../../assets/images/profile-placeholder.png';
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useAuth } from '../../contexts/AuthContext';
 import { ProfileInfo, setPfpUrl } from '../../redux/reducers/profile';
-import { isValidEmail } from '../../utils/email';
 import { updateProfileInfo } from '../../utils/firestore';
 import Header from './Header';
 import Input from './Input';
@@ -34,11 +33,11 @@ function ProfileCard({ profile, editable, nameAsTitle }: ProfileCardProps) {
   const [name, setName] = useState(profile.name);
   const [nameError, setNameError] = useState(false);
 
+  const [ssn, setSsn] = useState(profile.ssn);
+  const [ssnError, setSsnError] = useState(false);
+
   const [phone, setPhone] = useState(profile.phone);
   const [phoneError, setPhoneError] = useState(false);
-
-  const [email, setEmail] = useState(profile.email);
-  const [emailError, setEmailError] = useState(false);
 
   const [bleeter, setBleeter] = useState(profile.bleeter);
   const [bleeterError, setBleeterError] = useState(false);
@@ -55,10 +54,10 @@ function ProfileCard({ profile, editable, nameAsTitle }: ProfileCardProps) {
   useEffect(() => {
     setName(profile.name);
     setNameError(false);
+    setSsn(profile.ssn);
+    setSsnError(false);
     setPhone(profile.phone);
     setPhoneError(false);
-    setEmail(profile.email);
-    setEmailError(false);
     setBleeter(profile.bleeter);
     setBleeterError(false);
     setBank(profile.bank);
@@ -75,16 +74,6 @@ function ProfileCard({ profile, editable, nameAsTitle }: ProfileCardProps) {
   function validateNotEmpty(value: string, errorSetter: Dispatch<SetStateAction<boolean>>) {
     if (editable) {
       errorSetter(!value.length);
-    }
-  }
-
-  function validateEmail() {
-    if (editable) {
-      if (!email.length || isValidEmail(email)) {
-        setEmailError(false);
-      } else {
-        setEmailError(true);
-      }
     }
   }
 
@@ -112,13 +101,13 @@ function ProfileCard({ profile, editable, nameAsTitle }: ProfileCardProps) {
   }
 
   function canSave(): boolean {
-    return !nameError && !phoneError && !emailError && !bleeterError && !bankError;
+    return !nameError && !phoneError && !ssnError && !bleeterError && !bankError;
   }
 
   function isDataUpdated(): boolean {
     return name !== profile.name
+      || ssn !== profile.ssn
       || phone !== profile.phone
-      || email !== profile.email
       || bleeter !== profile.bleeter
       || bank !== profile.bank
       || division !== profile.division
@@ -129,10 +118,10 @@ function ProfileCard({ profile, editable, nameAsTitle }: ProfileCardProps) {
   function handleCancel() {
     setName(profile.name);
     setNameError(false);
+    setSsn(profile.ssn);
+    setSsnError(false);
     setPhone(profile.phone);
     setPhoneError(false);
-    setEmail(profile.email);
-    setEmailError(false);
     setBleeter(profile.bleeter);
     setBleeterError(false);
     setBank(profile.bank);
@@ -148,8 +137,9 @@ function ProfileCard({ profile, editable, nameAsTitle }: ProfileCardProps) {
       admin: profile.admin,
       clockedIn: profile.clockedIn,
       name,
+      ssn,
       phone,
-      email,
+      email: profile.email,
       bleeter,
       bank,
       division,
@@ -256,6 +246,19 @@ function ProfileCard({ profile, editable, nameAsTitle }: ProfileCardProps) {
               />
               <Input
                 type="text"
+                name="ssn"
+                placeholder={editable ? "SSN *" : "SSN"}
+                icon="id card"
+                value={ssn}
+                onChange={e => setValue(e, setSsn, setSsnError, true)}
+                disabled={loading}
+                readonly={!editable}
+                error={ssnError}
+              />
+            </div>
+            <div className='Row'>
+              <Input
+                type="text"
                 name="phone"
                 placeholder={editable ? "Phone No. *" : "Phone No."}
                 icon="phone"
@@ -266,8 +269,6 @@ function ProfileCard({ profile, editable, nameAsTitle }: ProfileCardProps) {
                 readonly={!editable}
                 error={phoneError}
               />
-            </div>
-            <div className='Row'>
               <Input
                 type="text"
                 name="bank"
@@ -279,6 +280,8 @@ function ProfileCard({ profile, editable, nameAsTitle }: ProfileCardProps) {
                 readonly={!editable}
                 error={bankError}
               />
+            </div>
+            <div className='Row'>
               <Input
                 type="text"
                 name="bleeter"
@@ -289,20 +292,6 @@ function ProfileCard({ profile, editable, nameAsTitle }: ProfileCardProps) {
                 disabled={loading}
                 readonly={!editable}
                 error={bleeterError}
-              />
-            </div>
-            <div className='Row'>
-              <Input
-                type="text"
-                name="email"
-                placeholder="Email"
-                icon="at"
-                value={email}
-                onChange={e => setValue(e, setEmail, setEmailError)}
-                onBlur={validateEmail}
-                disabled={loading}
-                readonly={!editable}
-                error={emailError}
               />
               <Dropdown
                 placeholder='Division'

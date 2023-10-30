@@ -8,6 +8,7 @@ export interface ProfileState {
 export interface ProfileInfo {
   id: string;
   name: string;
+  ssn: string;
   phone: string;
   bleeter: string;
   email: string;
@@ -23,6 +24,7 @@ const initialState: ProfileState = {
   info: {
     id: '',
     name: '',
+    ssn: '',
     phone: '',
     bleeter: '',
     email: '',
