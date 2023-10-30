@@ -35,15 +35,15 @@ function CurrentShift() {
     }
   }
 
-  function handleClockOut(rating: number, comments: string) {
+  function handleClockOut() {
     if (user) {
       setLoading(true);
       updateProfileClockedIn(user.uid, false);
 
       const update = {
         end: new Date().toISOString(),
-        rating,
-        comments,
+        rating: 0,
+        comments: "",
       }
       updateEmployeeCurrentShift(user.uid, update);
       setLoading(false);
@@ -96,7 +96,13 @@ function CurrentShift() {
             <Fragment>
               <div className='Duration'>{getShiftLengthLabel()}</div>
               {getShiftSalesLabel()}
-              <ClockOutModal onConfirm={handleClockOut} />
+              <button
+                className='ui button negative hover-animation'
+                onClick={handleClockOut}
+              >
+                <p className='label contrast'>Clock Out</p>
+                <p className='IconContainer contrast'><i className='clock icon'></i></p>
+              </button>
             </Fragment>
           ) : (
             <Fragment>

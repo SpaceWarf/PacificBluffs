@@ -77,12 +77,12 @@ function PreviousShifts() {
                   <div>{getShiftStartLabel(shift)}</div>
                   <div>
                     <div>{getShiftProfitLabel(shift)}</div>
-                    <ShiftEditModal shift={shift} />
+                    {/* <ShiftEditModal shift={shift} /> */}
                   </div>
                 </div>
               </Accordion.Title>
               <Accordion.Content active={activeIndex === i}>
-                <div className='Review'>
+                {/* <div className='Review'>
                   <Form>
                     <Rating
                       icon='star'
@@ -99,7 +99,7 @@ function PreviousShifts() {
                       disabled
                     ></TextArea>
                   </Form>
-                </div>
+                </div> */}
                 {getReceiptsForShift(shift).length > 0 && (
                   <ReceiptsDisplay receipts={getReceiptsForShift(shift)} />
                 )}
