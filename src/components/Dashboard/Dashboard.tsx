@@ -74,10 +74,10 @@ function Dashboard() {
             <UpcomingEventsCard />
           </div>
           <div className='Row'>
-            <div className='ui card OnShift full-width'>
+            <div className='ui card OnShift external full-width'>
               <div className='content'>
                 <div className='header'>
-                  Employees On Shift
+                  <p><i className='group icon' /> Employees On Shift</p>
                 </div>
                 <div className='description'>
                   {profilesClockedIn.length > 0 ? (
@@ -129,10 +129,10 @@ function Dashboard() {
                 icon='clock'
               />
             </div>
-            <div className='ui card BiggestOrders quarter-width'>
+            <div className='ui card BiggestOrders external quarter-width'>
               <div className='content'>
                 <div className='header'>
-                  Biggest Orders
+                  <p><i className='dollar icon' /> Biggest Orders</p>
                 </div>
                 <div className='description'>
                   {biggestReceipts.length > 0 ? (
@@ -152,10 +152,16 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-            <div className='ui card BiggestOrders quarter-width'>
+            <div className='ui card BiggestTips external quarter-width'>
               <div className='content'>
                 <div className='header'>
-                  Biggest Tips
+                  <p>
+                    <div className="TipIcon icon">
+                      <i className="dollar icon"></i>
+                      <i className="heart icon"></i>
+                    </div>
+                    Biggest Tips
+                  </p>
                 </div>
                 <div className='description'>
                   {biggestTipReceipts.length > 0 ? (
@@ -175,10 +181,10 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-            <div className='ui card LongestShifts quarter-width'>
+            <div className='ui card LongestShifts external quarter-width'>
               <div className='content'>
                 <div className='header'>
-                  Longest Shifts
+                  <p><i className='clock icon' /> Longest Shifts</p>
                 </div>
                 <div className='description'>
                   {longestShifts.length > 0 ? (

@@ -1,14 +1,14 @@
 import './OrderCalculator.scss';
-import { Quantity, setComboQuantity, setItemQuantity } from '../../redux/reducers/order';
+import { Quantity, setComboQuantity, setItemQuantity, setServiceQuantity } from '../../redux/reducers/order';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import OrderItem from './OrderItem/OrderItem';
-import { Combo, MenuItem } from '../../redux/reducers/menuItems';
+import { Combo, MenuItem, Service } from '../../redux/reducers/menuItems';
 import { getAlphabeticallyOrdered } from '../../utils/array';
 import { ActionCreator, AnyAction } from '@reduxjs/toolkit';
 import ReceiptSidebar from './ReceiptSidebar/ReceiptSidebar';
 import Header from '../Common/Header';
-import { getDrinksItems, getFoodItems } from '../../redux/selectors/menuItems';
+import { getDrinksItems, getFoodItems, getStoreItems } from '../../redux/selectors/menuItems';
 
 function OrderCalculator() {
   const items = useSelector(
@@ -20,11 +20,20 @@ function OrderCalculator() {
   const drinksMenuItems = useSelector(
     (state: RootState) => getAlphabeticallyOrdered(getDrinksItems(state), 'name')
   );
-  const combos = useSelector(
-    (state: RootState) => state.order.combos
+  const storeMenuItems = useSelector(
+    (state: RootState) => getAlphabeticallyOrdered(getStoreItems(state), 'name')
   );
   const menuCombos = useSelector(
     (state: RootState) => getAlphabeticallyOrdered(state.menuItems.combos, 'name')
+  );
+  const menuServices = useSelector(
+    (state: RootState) => getAlphabeticallyOrdered(state.menuItems.services, 'name')
+  );
+  const combos = useSelector(
+    (state: RootState) => state.order.combos
+  );
+  const services = useSelector(
+    (state: RootState) => state.order.services
   );
   const dispatch = useDispatch();
 
@@ -45,19 +54,6 @@ function OrderCalculator() {
 
   return (
     <div className="OrderCalculator">
-      <div className='Section'>
-        <Header text="Combos" decorated />
-        <div className='Combos'>
-          {menuCombos.map((combo: Combo) => (
-            <OrderItem
-              key={combo.id}
-              item={combo}
-              value={getQuantity(combo.id, combos)}
-              onChange={(e) => onSetQuantity(combo.id, e, setComboQuantity)}
-            />
-          ))}
-        </div>
-      </div>
       <div className='Section'>
         <Header text='Food' decorated />
         <div className='MenuItems'>
@@ -81,6 +77,48 @@ function OrderCalculator() {
               value={getQuantity(item.id, items)}
               onChange={(e) => onSetQuantity(item.id, e, setItemQuantity)}
             />
+          ))}
+        </div>
+      </div>
+      <div className='Section'>
+        <Header text='Store Items' decorated />
+        <div className='MenuItems'>
+          {storeMenuItems.map((item: MenuItem) => (
+            <OrderItem
+              key={item.id}
+              item={item}
+              value={getQuantity(item.id, items)}
+              onChange={(e) => onSetQuantity(item.id, e, setItemQuantity)}
+            />
+          ))}
+        </div>
+      </div>
+      <div className='Section'>
+        <Header text="Services" decorated />
+        <div className='Services'>
+          {menuServices.map((service: Service) => (
+            <OrderItem
+              key={service.id}
+              item={service}
+              value={getQuantity(service.id, services)}
+              onChange={(e) => onSetQuantity(service.id, e, setServiceQuantity)}
+              omitDetails
+            />
+          ))}
+        </div>
+      </div>
+      <div className='Section'>
+        <Header text="Packages" decorated />
+        <div className='Combos'>
+          {menuCombos.map((combo: Combo) => (
+            <div>
+              <OrderItem
+                key={combo.id}
+                item={combo}
+                value={getQuantity(combo.id, combos)}
+                onChange={(e) => onSetQuantity(combo.id, e, setComboQuantity)}
+              />
+            </div>
           ))}
         </div>
       </div>

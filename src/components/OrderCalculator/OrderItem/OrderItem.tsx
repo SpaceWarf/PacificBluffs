@@ -1,20 +1,21 @@
 import './OrderItem.scss';
 import { useSelector } from 'react-redux';
-import { Combo, ComboItem, MenuItem } from '../../../redux/reducers/menuItems';
+import { Combo, ComboItem, MenuItem, Service } from '../../../redux/reducers/menuItems';
 import { RootState } from '../../../redux/store';
 import { getAlphabeticallyOrdered } from '../../../utils/array';
 import { currencyFormat } from '../../../utils/currency';
 import { ChangeEvent } from "react";
 
 interface OrderItemProps {
-  item: MenuItem | Combo;
+  item: MenuItem | Combo | Service;
   value: number;
   onChange: (number: number) => void;
   omitDetails?: boolean;
 }
 
 function OrderItem({ item, value, onChange, omitDetails }: OrderItemProps) {
-  const menuItems = useSelector( (state: RootState) => state.menuItems.items);
+  const menuItems = useSelector((state: RootState) => state.menuItems.items);
+  const services = useSelector((state: RootState) => state.menuItems.services);
 
   function handleAdd() {
     onChange(value + 1);
@@ -34,7 +35,14 @@ function OrderItem({ item, value, onChange, omitDetails }: OrderItemProps) {
   }
 
   function getItemName(id: string): string {
-    return menuItems.find(i => i.id === id)?.name || '';
+    switch (id) {
+      case "cocktail":
+        return "Any Cocktail";
+      case "dessert":
+        return "Any Dessert";
+      default:
+        return [...menuItems, ...services].find(i => i.id === id)?.name || '';
+    }
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -78,7 +86,7 @@ function OrderItem({ item, value, onChange, omitDetails }: OrderItemProps) {
             onKeyDown={handleKeyDown}
             autoComplete='off'
           />
-        </div> 
+        </div>
         <button className="ui button positive" onClick={handleAdd}>
           <i className="add icon"></i>
         </button>

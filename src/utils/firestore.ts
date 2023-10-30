@@ -1,6 +1,6 @@
 import { DocumentData, addDoc, collection, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../config/firebase";
-import { Combo, MenuItem, ComboItem, Ingredient, RecipeItem } from "../redux/reducers/menuItems";
+import { Combo, MenuItem, ComboItem, Ingredient, RecipeItem, Service } from "../redux/reducers/menuItems";
 import { ProfileInfo } from "../redux/reducers/profile";
 import { Shift } from "../redux/reducers/shifts";
 import { Receipt } from "../redux/reducers/receipts";
@@ -31,6 +31,7 @@ const menusAndAdsRef = collection(db, "menus-and-ads");
 const rolesRef = collection(db, "roles");
 const divisionRef = collection(db, "divisions");
 const eventsRef = collection(db, "events");
+const servicesRef = collection(db, "services");
 
 export async function getMenuItems(): Promise<MenuItem[]> {
   const snapshot = await getDocs(menuItemsRef);
@@ -88,6 +89,31 @@ function getComboFromDocumentData(doc: DocumentData): Combo {
     ...doc.data(),
     items: mapDbValueToItemArray<ComboItem>(doc.data().items),
   }
+}
+
+export async function getServices(): Promise<Service[]> {
+  const snapshot = await getDocs(servicesRef);
+  const services: Service[] = [];
+  snapshot.forEach((doc: DocumentData) => {
+    services.push({
+      id: doc.id,
+      ...doc.data(),
+    });
+  });
+  return services;
+}
+
+export function onServicesSnapshot(cb: (services: Service[]) => void): Unsubscribe {
+  return onSnapshot(servicesRef, {}, snapshot => {
+    const services: Service[] = [];
+    snapshot.forEach((doc: DocumentData) => {
+      services.push({
+        id: doc.id,
+        ...doc.data(),
+      });
+    });
+    cb(services);
+  });
 }
 
 function mapDbValueToItemArray<T>(dbValue: Object): T[] {

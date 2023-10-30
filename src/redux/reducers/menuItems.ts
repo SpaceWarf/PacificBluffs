@@ -2,7 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export enum MenuItemType {
   FOOD = "food",
-  DRINK = "drinks"
+  DRINK = "drinks",
+  STORE = "store",
 }
 
 export interface MenuItem {
@@ -31,6 +32,12 @@ export interface ComboItem {
   quantity: number;
 }
 
+export interface Service {
+  id: string;
+  name: string;
+  price: number;
+}
+
 export interface Ingredient {
   id: string;
   name: string;
@@ -42,11 +49,13 @@ export interface Ingredient {
 export interface MenuItemsState {
   items: MenuItem[];
   combos: Combo[];
+  services: Service[];
 }
 
 const initialState: MenuItemsState = {
   items: [],
   combos: [],
+  services: [],
 };
 
 export const menuItems = createSlice({
@@ -59,6 +68,9 @@ export const menuItems = createSlice({
     setCombos: (state, action: PayloadAction<Combo[]>) => {
       state.combos = action.payload;
     },
+    setServices: (state, action: PayloadAction<Service[]>) => {
+      state.services = action.payload;
+    },
     setMenuItemStock: (state, action: PayloadAction<{ id: string, stock: number }>) => {
       const { id, stock } = action.payload;
       const item = state.items.find(item => item.id === id);
@@ -69,5 +81,5 @@ export const menuItems = createSlice({
   },
 });
 
-export const { setMenuItems, setCombos, setMenuItemStock } = menuItems.actions;
+export const { setMenuItems, setCombos, setServices, setMenuItemStock } = menuItems.actions;
 export default menuItems.reducer;

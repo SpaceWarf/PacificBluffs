@@ -17,11 +17,13 @@ import {
   getDivisions,
   getRoles,
   getEvents,
-  onEventsSnapshot
+  onEventsSnapshot,
+  getServices,
+  onServicesSnapshot
 } from "../utils/firestore";
 import { Dispatch } from "react";
 import { AnyAction } from "@reduxjs/toolkit";
-import { setCombos, setMenuItems } from "../redux/reducers/menuItems";
+import { setCombos, setMenuItems, setServices } from "../redux/reducers/menuItems";
 import { setIngredients } from "../redux/reducers/ingredients";
 import { setMenus, setAds } from "../redux/reducers/menusAndAds";
 import { setPfpUrl, setProfile } from "../redux/reducers/profile";
@@ -46,6 +48,7 @@ export async function loadData(id: string, dispatch: Dispatch<AnyAction>) {
     divisions,
     roles,
     events,
+    services,
   ] = await Promise.all([
     getMenuItems(),
     getCombos(),
@@ -57,6 +60,7 @@ export async function loadData(id: string, dispatch: Dispatch<AnyAction>) {
     getDivisions(),
     getRoles(),
     getEvents(),
+    getServices(),
   ]);
   dispatch(setMenuItems(menuItems));
   dispatch(setCombos(combos));
@@ -69,6 +73,7 @@ export async function loadData(id: string, dispatch: Dispatch<AnyAction>) {
   dispatch(setRoles(roles));
   dispatch(setDivisions(divisions));
   dispatch(setEvents(events));
+  dispatch(setServices(services));
 
   if (profile.pfp) {
     const url = await getProfilePictureUrl(profile.pfp);
@@ -86,6 +91,7 @@ export async function loadData(id: string, dispatch: Dispatch<AnyAction>) {
     dispatch(setAds(menusAndAds.ads));
   });
   onEventsSnapshot(events => dispatch(setEvents(events)));
+  onServicesSnapshot(services => dispatch(setServices(services)));
 
   loadingSubject.next(false);
 }
