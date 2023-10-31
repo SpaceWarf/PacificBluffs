@@ -1,6 +1,6 @@
 import { Quantity } from "../reducers/order";
 import { RootState } from "../store";
-import { getMenuItemById } from "./menuItems";
+import { getMenuItemById, getServiceById } from "./menuItems";
 
 export interface ReceiptItem {
   id: string;
@@ -77,6 +77,23 @@ export function getAllOrderItems(state: RootState, flat = true): ReceiptItem[] {
             price: menuCombo.price * orderCombo.quantity
           });
         }
+      }
+    }
+  });
+
+  const orderServices = state.order.services;
+
+  orderServices.forEach((orderService: Quantity) => {
+    if (orderService.quantity > 0) {
+      const menuService = getServiceById(state, orderService.id);
+
+      if (menuService) {
+        receiptItems.push({
+          id: menuService.id,
+          name: menuService.name,
+          quantity: orderService.quantity,
+          price: menuService.price * orderService.quantity
+        });
       }
     }
   });

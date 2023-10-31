@@ -65,12 +65,14 @@ function OrderItem({ item, value, onChange, omitDetails }: OrderItemProps) {
       </div>
       {!omitDetails && getItems().length > 0 && <div className="content">
         <div className="ui bulleted list">
-          {getItems().map((comboItem: ComboItem) => (
-            <div
-              key={`${comboItem.id}-${comboItem.id}`}
-              className='item'
-            >{getItemName(comboItem.id)} x {comboItem.quantity}</div>
-          ))}
+          {getItems()
+            .sort((a, b) => getItemName(a.id).localeCompare(getItemName(b.id)))
+            .map((comboItem: ComboItem) => (
+              <div
+                key={`${comboItem.id}-${comboItem.id}`}
+                className='item'
+              >{getItemName(comboItem.id)} x {comboItem.quantity}</div>
+            ))}
         </div>
       </div>}
       <div className='extra content'>

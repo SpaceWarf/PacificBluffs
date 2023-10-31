@@ -8,7 +8,7 @@ import { clearOrder } from '../../../redux/reducers/order';
 import Header from '../../Common/Header';
 import StockModal from '../StockModal/StockModal';
 import TipModal from './TipModal/TipModal';
-import { Combo, ComboItem, MenuItem } from '../../../redux/reducers/menuItems';
+import { Combo, ComboItem } from '../../../redux/reducers/menuItems';
 
 function ReceiptSidebar() {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ function ReceiptSidebar() {
     (state: RootState) => getAlphabeticallyOrdered(getAllOrderItems(state, false), 'name')
   );
   const { clockedIn } = useSelector((state: RootState) => state.profile.info);
-  const { items, combos } = useSelector((state: RootState) => state.menuItems);
+  const { items, combos, services } = useSelector((state: RootState) => state.menuItems);
 
   function handleClearOder() {
     dispatch(clearOrder());
@@ -29,8 +29,14 @@ function ReceiptSidebar() {
   }
 
   function getMenuItemName(id: string): string {
-    const foundItem: MenuItem | undefined = items.find((menuItem: MenuItem) => menuItem.id === id);
-    return foundItem?.name ?? '';
+    switch (id) {
+      case "cocktail":
+        return "Any Cocktail";
+      case "dessert":
+        return "Any Dessert";
+      default:
+        return [...items, ...services].find(i => i.id === id)?.name || '';
+    }
   }
 
   return (
@@ -45,13 +51,15 @@ function ReceiptSidebar() {
                   <p className='contrast'>{item.name} x {item.quantity}</p>
                   <p className='contrast'>{currencyFormat(item.price)}</p>
                 </div>
-                {getComboItems(item).map(comboItem => (
-                  <div className='Item Indented' key={comboItem.id}>
-                    <div className='ItemLabel'>
-                      <p className='contrast'>{getMenuItemName(comboItem.id)} x {item.quantity * comboItem.quantity}</p>
+                {[...getComboItems(item)]
+                  .sort((a, b) => getMenuItemName(a.id).localeCompare(getMenuItemName(b.id)))
+                  .map(comboItem => (
+                    <div className='Item Indented' key={comboItem.id}>
+                      <div className='ItemLabel'>
+                        <p className='contrast'>{getMenuItemName(comboItem.id)} x {item.quantity * comboItem.quantity}</p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             ))}
           </div>

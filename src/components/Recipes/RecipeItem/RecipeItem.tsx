@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Ingredient, MenuItem, RecipeItem } from '../../../redux/reducers/menuItems';
 import { RootState } from '../../../redux/store';
 import { ChangeEvent } from "react";
-import { getAlphabeticallyOrdered } from '../../../utils/array';
 
 interface RecipeItemProps {
   item: MenuItem | Ingredient;
@@ -12,7 +11,7 @@ interface RecipeItemProps {
 }
 
 function RecipeItemCard({ item, value, onChange }: RecipeItemProps) {
-  const ingredients = useSelector( (state: RootState) => state.ingredients.items);
+  const ingredients = useSelector((state: RootState) => state.ingredients.items);
 
   function handleAdd() {
     onChange(value + 1);
@@ -47,12 +46,14 @@ function RecipeItemCard({ item, value, onChange }: RecipeItemProps) {
         <div className="content">
           {item.recipe.length > 0 ? (
             <div className="ui bulleted list">
-              {getAlphabeticallyOrdered(item.recipe, 'id').map((ingredient: RecipeItem) => (
-                <div
-                  key={`${item.id}-${ingredient.id}`}
-                  className='item'
-                >{getIngredientName(ingredient.id)} x {ingredient.quantity}</div>
-              ))}
+              {[...item.recipe]
+                .sort((a, b) => getIngredientName(a.id).localeCompare(getIngredientName(b.id)))
+                .map((ingredient: RecipeItem) => (
+                  <div
+                    key={`${item.id}-${ingredient.id}`}
+                    className='item'
+                  >{getIngredientName(ingredient.id)} x {ingredient.quantity}</div>
+                ))}
             </div>
           ) : (
             <p>No recipe available for this item.</p>
@@ -72,7 +73,7 @@ function RecipeItemCard({ item, value, onChange }: RecipeItemProps) {
             onKeyDown={handleKeyDown}
             autoComplete='off'
           />
-        </div> 
+        </div>
         <button className="ui button positive" onClick={handleAdd}>
           <i className="add icon"></i>
         </button>
