@@ -18,7 +18,11 @@ export function getOrderTotalPrice(state: RootState): number {
     const menuItem = state.menuItems.items.find(menuItem => menuItem.id === item.id);
     return total + (item.quantity * (menuItem?.price || 0));
   }, 0);
-  return combosPrice + itemsPrice;
+  const servicesPrice = state.order.services.reduce((total: number, item: Quantity) => {
+    const serviceItem = state.menuItems.services.find(serviceItem => serviceItem.id === item.id);
+    return total + (item.quantity * (serviceItem?.price || 0));
+  }, 0);
+  return combosPrice + itemsPrice + servicesPrice;
 }
 
 export function getAllOrderItems(state: RootState, flat = true): ReceiptItem[] {
