@@ -98,7 +98,7 @@ function Login() {
               }
             </div>
             <div className='Footer'>
-              <p className='quote'><i>"Perfection is not attainable, but if we chase perfection we can catch excellence."</i></p>
+              <p className='quote'><i>"Vera is super duper cool!"</i></p>
             </div>
           </div>
         </div>
