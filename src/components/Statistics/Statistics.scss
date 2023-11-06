@@ -28,16 +28,16 @@
         width: 250px;
 
         .label {
-          width: 115px;
+          width: 185px;
         }
 
         &:hover:not(:disabled) {
           .label {
-            left: calc((100% - 140px) / 2);
+            left: calc((100% - 210px) / 2);
           }
 
           .IconContainer {
-            right: calc((100% - 140px) / 2);
+            right: calc((100% - 210px) / 2);
           }
         }
       }
