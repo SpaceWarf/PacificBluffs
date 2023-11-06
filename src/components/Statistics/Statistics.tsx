@@ -112,7 +112,10 @@ function Statistics() {
       ]);
     }
 
-    const csvContent = "data:text/csv;charset=utf-8," + rows.map(row => row.join(",")).join("\n");
+    const csvContent = "data:text/csv;charset=utf-8,"
+      + rows
+        .sort((a, b) => Number(b[1]) - Number(a[1]))
+        .map(row => row.join(",")).join("\n");
     const encodedUri = encodeURI(csvContent);
     window.open(encodedUri);
     setGeneratingReport(false);
