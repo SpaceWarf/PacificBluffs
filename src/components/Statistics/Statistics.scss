@@ -44,25 +44,36 @@
     }
   }
 
-  .content {
+  &>.content {
     display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
 
-    .Cards {
+    .Row {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      width: 235px;
-    }
+      width: 100%;
+      margin-top: 20px;
+      gap: 20px;
 
-    .ShiftsChartCard,
-    .OrdersChartCard {
-      width: calc((100% - 275px) / 2);
+      .Cards {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 235px;
+      }
 
-      .Chart {
-        width: 100%;
+      .ShiftsChartCard,
+      .OrdersChartCard {
+        width: calc((100% - 275px) / 2);
+
+        .Chart {
+          width: 100%;
+        }
+      }
+
+      .Shifts {
+        width: calc(255px + ((100% - 275px) / 2));
       }
     }
   }

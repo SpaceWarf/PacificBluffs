@@ -14,6 +14,7 @@ import OrdersChart from '../Common/OrdersChart';
 import StatsCard from '../Common/StatsCard';
 import { currencyFormat } from '../../utils/currency';
 import { getDatesBetween, isSameDay } from '../../utils/date';
+import ShiftListing from '../Common/ShiftListing';
 
 function Statistics() {
   const [employee, setEmployee] = useState<string>('');
@@ -77,10 +78,15 @@ function Statistics() {
     }
   }
 
+  const getOrderedShifts = (shifts: Shift[]): Shift[] => {
+    return getFilteredShifts(shifts)
+      .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+  }
+
   const getFilteredShifts = (shifts: Shift[]): Shift[] => {
     return shifts.filter(shift => {
       const daysTofilter = getDatesBetween(start.toDate(), end.toDate());
-      return daysTofilter.some(day => isSameDay(new Date(shift.start), day));
+      return shift.end && daysTofilter.some(day => isSameDay(new Date(shift.start), day));
     });
   }
 
@@ -93,7 +99,7 @@ function Statistics() {
 
   const handleDownload = async () => {
     setGeneratingReport(true);
-    const rows = [['Name', 'Hours Worked', 'Profits', 'Bonus']];
+    const rows = [['Name', 'Hours Worked', 'Profits', 'Expected Bonus']];
 
     for (const employee of employees) {
       const shifts = await getShiftsForEmployee(employee.id);
@@ -174,40 +180,51 @@ function Statistics() {
       {dateError && <p className='error'>The start date must be before the end date.</p>}
       {employee && (
         <div className='content'>
-          <div className='Cards'>
-            <StatsCard
-              title={`${getHoursWorked(getFilteredShifts(shifts))} hours`}
-              description='Hours Worked'
-              icon='clock'
-            />
-            <StatsCard
-              title={currencyFormat(getProfits(getFilteredReceipts(receipts)))}
-              description='Profits'
-              icon='dollar'
-            />
-            <StatsCard
-              title={currencyFormat(getBonus(getFilteredShifts(shifts)))}
-              description='Bonus'
-              icon='tip'
-            />
-          </div>
-          <div className='ui card ShiftsChartCard half-width'>
-            <div className='content'>
-              <ShiftsChart
-                title='Hours Worked Per Day'
-                shifts={getFilteredShifts(shifts)}
-                start={start.toDate()}
-                end={end.toDate()}
+          <div className='Row'>
+            <div className='Cards'>
+              <StatsCard
+                title={`${getHoursWorked(getFilteredShifts(shifts))} hours`}
+                description='Hours Worked'
+                icon='clock'
+              />
+              <StatsCard
+                title={currencyFormat(getProfits(getFilteredReceipts(receipts)))}
+                description='Profits'
+                icon='dollar'
+              />
+              <StatsCard
+                title={currencyFormat(getBonus(getFilteredShifts(shifts)))}
+                description='Expected Bonus'
+                icon='tip'
               />
             </div>
+            <div className='ui card ShiftsChartCard half-width'>
+              <div className='content'>
+                <ShiftsChart
+                  title='Hours Worked Per Day'
+                  shifts={getFilteredShifts(shifts)}
+                  start={start.toDate()}
+                  end={end.toDate()}
+                />
+              </div>
+            </div>
+            <div className='ui card OrdersChartCard half-width'>
+              <div className='content'>
+                <OrdersChart
+                  title='Profit Per Day'
+                  receipts={getFilteredReceipts(receipts)}
+                  start={start.toDate()}
+                  end={end.toDate()}
+                />
+              </div>
+            </div>
           </div>
-          <div className='ui card OrdersChartCard half-width'>
-            <div className='content'>
-              <OrdersChart
-                title='Profit Per Day'
+          <div className='Row'>
+            <div className='Shifts'>
+              <h2>Shifts</h2>
+              <ShiftListing
+                shifts={getOrderedShifts(shifts)}
                 receipts={getFilteredReceipts(receipts)}
-                start={start.toDate()}
-                end={end.toDate()}
               />
             </div>
           </div>
@@ -221,6 +238,5 @@ function Statistics() {
     </div>
   );
 }
-
 
 export default Statistics;
