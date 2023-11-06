@@ -131,7 +131,7 @@ function Statistics() {
 
   const getProfits = (receipts: Receipt[]): number => {
     return receipts.reduce((total, receipt) => {
-      return total + receipt.total;
+      return total + receipt.total + receipt.tip;
     }, 0);
   }
 
