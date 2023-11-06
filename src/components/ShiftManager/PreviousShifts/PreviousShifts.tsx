@@ -3,14 +3,13 @@ import { useSelector } from "react-redux";
 import { getPreviousShifts } from "../../../redux/selectors/shifts";
 import { RootState } from "../../../redux/store";
 import Header from "../../Common/Header";
-import { Accordion, Form, Icon, Rating, TextArea } from "semantic-ui-react";
+import { Accordion, Icon } from "semantic-ui-react";
 import React, { Fragment, useState } from "react";
 import { Receipt } from '../../../redux/reducers/receipts';
 import { Shift } from '../../../redux/reducers/shifts';
 import { currencyFormat } from '../../../utils/currency';
 import ReceiptsDisplay from '../ReceiptsDisplay/ReceiptsDisplay';
 import { getDurationAsString } from '../../../utils/time';
-import ShiftEditModal from '../ShiftEditModal/ShiftEditModal';
 
 function PreviousShifts() {
   const previousShifts = useSelector(getPreviousShifts);

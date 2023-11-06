@@ -1,46 +1,45 @@
-import './OrdersChart.scss';
 import { useEffect, useState } from "react";
-import { useSelector } from 'react-redux';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import { getReceiptsForLastWeek } from '../../../redux/selectors/receipts';
-import { currencyFormat } from '../../../utils/currency';
+import { currencyFormat } from '../../utils/currency';
+import { Receipt } from "../../redux/reducers/receipts";
+import { getDatesBetween, isSameDay } from "../../utils/date";
+
+interface OrdersChartProps {
+  receipts: Receipt[];
+  title: string;
+  start: Date;
+  end: Date;
+}
 
 interface DailyStat {
   date: string;
   amount: number;
 }
 
-function OrdersChart() {
+function OrdersChart(props: OrdersChartProps) {
   const [data, setData] = useState([] as DailyStat[]);
-  const receiptsForLastWeek = useSelector(getReceiptsForLastWeek);
 
   useEffect(() => {
     function getWeeklyStats(): DailyStat[] {
-      const today = new Date();
-      today.setDate(today.getDate() + 1);
-      const weeklyStats: DailyStat[] = [];
+      return getDatesBetween(props.start, props.end)
+        .map(day => {
+          const ordersForDay = props.receipts.filter(receipt => {
+            return isSameDay(new Date(receipt.date), day);
+          });
 
-      for (let i = 0; i < 7; i++) {
-        const day = new Date(today.setDate(today.getDate() - 1));
-        const ordersForDay = receiptsForLastWeek.filter(receipt => {
-          const receiptDate = new Date(receipt.date);
-          return receiptDate.getDate() === day.getDate();
+          return {
+            date: day.toLocaleDateString(),
+            amount: ordersForDay.reduce((acc, receipt) => acc + receipt.total + receipt.tip, 0)
+          };
         });
-        weeklyStats.push({
-          date: day.toLocaleDateString(),
-          amount: ordersForDay.reduce((acc, receipt) => acc + receipt.total + receipt.tip, 0)
-        });
-      }
-
-      return weeklyStats.reverse();
     }
 
     setData(getWeeklyStats());
-  }, [receiptsForLastWeek]);
+  }, [props.receipts, props.end, props.start]);
 
   return (
     <div className='OrdersChart Chart'>
-      <p className='Title'>Profit Per Day (Last 7 Days)</p>
+      <p className='Title'>{props.title}</p>
       <ResponsiveContainer width='100%' height={350}>
         <BarChart
           data={data}

@@ -382,7 +382,7 @@ export async function createEvent(event: CalendarEventUpdate, user: User | null)
   const doc = await addDoc(eventsRef, {
     ...event,
     createdAt: now,
-    createdBy: user?.email ?? '',
+    createdBy: user?.uid ?? '',
   });
   return {
     id: doc.id,
@@ -395,7 +395,7 @@ export async function updateEvent(id: string, update: CalendarEventUpdate, user:
   await updateDoc(doc(db, "events", id), {
     ...update,
     updatedAt: now,
-    updatedBy: user?.email ?? '',
+    updatedBy: user?.uid ?? '',
   });
 }
 
@@ -404,7 +404,7 @@ export async function deleteEvent(id: string, user: User | null): Promise<void> 
   await updateDoc(doc(db, "events", id), {
     deleted: true,
     deletedAt: now,
-    deletedBy: user?.email ?? '',
+    deletedBy: user?.uid ?? '',
   });
 }
 

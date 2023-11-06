@@ -23,7 +23,7 @@
     font-size: 3rem !important;
     color: $text-colour !important;
     margin: 0;
-  
+
     &.contrast {
       color: $text-colour-contrast !important;
     }
@@ -36,5 +36,9 @@ p {
 
   &.contrast {
     color: $text-colour-contrast;
+  }
+
+  &.error {
+    color: $red;
   }
 }

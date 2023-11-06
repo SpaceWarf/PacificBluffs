@@ -6,7 +6,6 @@ import { getReceiptsForCurrentShift } from "../../../redux/selectors/receipts";
 import { getCurrentShift } from "../../../redux/selectors/shifts";
 import { currencyFormat } from "../../../utils/currency";
 import ReceiptsDisplay from '../ReceiptsDisplay/ReceiptsDisplay';
-import ClockOutModal from '../ClockOutModal/ClockOutModal';
 import { Fragment, useEffect, useState } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import { Shift } from '../../../redux/reducers/shifts';

@@ -1,13 +1,13 @@
 import './Dashboard.scss';
 import { useSelector } from 'react-redux';
-import { getBiggestReceipts, getBiggestTipReceipts, getLifetimeProfits, getLifetimeTips } from '../../redux/selectors/receipts';
+import { getBiggestReceipts, getBiggestTipReceipts, getLifetimeProfits, getLifetimeTips, getReceiptsForLastWeek } from '../../redux/selectors/receipts';
 import { currencyFormat } from '../../utils/currency';
 import { Receipt } from '../../redux/reducers/receipts';
-import { getLifetimeHoursWorked, getLongestShifts } from '../../redux/selectors/shifts';
+import { getLifetimeHoursWorked, getLongestShifts, getShiftsForLastWeek } from '../../redux/selectors/shifts';
 import { Shift } from '../../redux/reducers/shifts';
 import { getDurationAsString } from '../../utils/time';
-import OrdersChart from './OrdersChart/OrdersChart';
-import ShiftsChart from './ShiftsChart/ShiftsChart';
+import OrdersChart from '../Common/OrdersChart';
+import ShiftsChart from '../Common/ShiftsChart';
 import StatsCard from '../Common/StatsCard';
 import { getProfilesClockedIn } from '../../utils/firestore';
 import { useEffect, useState } from 'react';
@@ -15,6 +15,7 @@ import { ProfileInfo } from '../../redux/reducers/profile';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../redux/store';
 import UpcomingEventsCard from './UpcomingEventsCard/UpcomingEventsCard';
+import dayjs from 'dayjs';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -26,6 +27,8 @@ function Dashboard() {
   const lifetimeProfits = useSelector(getLifetimeProfits);
   const lifetimeHoursWorked = useSelector(getLifetimeHoursWorked);
   const lifetimeTips = useSelector(getLifetimeTips);
+  const shiftsForLastWeek = useSelector(getShiftsForLastWeek);
+  const receiptsForLastWeek = useSelector(getReceiptsForLastWeek);
   const [profilesClockedIn, setProfilesClockedIn] = useState<Partial<ProfileInfo>[]>([]);
 
   function getShiftDuration(shift: Shift): string {
@@ -102,12 +105,22 @@ function Dashboard() {
           <div className='Row'>
             <div className='ui card ShiftsChartCard half-width'>
               <div className='content'>
-                <ShiftsChart />
+                <ShiftsChart
+                  title='Hours Worked Per Day (Last 7 Days)'
+                  shifts={shiftsForLastWeek}
+                  start={dayjs().subtract(6, 'days').toDate()}
+                  end={new Date()}
+                />
               </div>
             </div>
             <div className='ui card OrdersChartCard half-width'>
               <div className='content'>
-                <OrdersChart />
+                <OrdersChart
+                  title='Profit Per Day (Last 7 Days)'
+                  receipts={receiptsForLastWeek}
+                  start={dayjs().subtract(6, 'days').toDate()}
+                  end={new Date()}
+                />
               </div>
             </div>
           </div>

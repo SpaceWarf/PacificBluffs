@@ -50,7 +50,7 @@ function Sidebar({ onCollapse, collapsed }: SidebarProps) {
             <div className='AdminRoutes'>
               <div className='Divider'></div>
               <SidebarItem name='Employees' icon='address book' path='/employees' onClick={() => navigate('/employees')} />
-              {/* <SidebarItem name='Statistics' icon='chart line' path='/statistics' onClick={() => navigate('/statistics')} /> */}
+              <SidebarItem name='Statistics' icon='chart line' path='/statistics' onClick={() => navigate('/statistics')} />
             </div>
           )}
         </div>
