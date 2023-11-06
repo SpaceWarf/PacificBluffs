@@ -230,7 +230,7 @@ function ProfileCard({ profile, editable, nameAsTitle }: ProfileCardProps) {
             />}
           </div>
           <Header text={nameAsTitle ? profile.name : 'Basic Info'} />
-          {!editable && <ClockedInLabel clockedIn={profile.clockedIn} />}
+          <ClockedInLabel clockedIn={profile.clockedIn} />
           <div className='ui form'>
             <div className='Row'>
               <Input

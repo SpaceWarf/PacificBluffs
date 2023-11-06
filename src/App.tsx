@@ -31,8 +31,8 @@ function App() {
             <Route path='/profile' element={<Profile />} />
             <Route path='/menus-ads' element={<MenusAndAds />} />
             <Route path='/calendar' element={<EventCalendar />} />
+            <Route path='/employees' element={<Employees />} />
             <Route element={<AdminRoute />}>
-              <Route path='/employees' element={<Employees />} />
               <Route path='/statistics' element={<Statistics />} />
             </Route>
           </Route>

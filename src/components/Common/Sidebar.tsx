@@ -46,10 +46,10 @@ function Sidebar({ onCollapse, collapsed }: SidebarProps) {
           <SidebarItem name='Recipes' icon='utensils' path='/recipes' onClick={() => navigate('/recipes')} />
           <SidebarItem name='Inventory' icon='box' path='/inventory' onClick={() => navigate('/inventory')} />
           <SidebarItem name='Menus & Ads' icon='bullhorn' path='/menus-ads' onClick={() => navigate('/menus-ads')} />
+          <SidebarItem name='Employees' icon='address book' path='/employees' onClick={() => navigate('/employees')} />
           {isAdmin && (
             <div className='AdminRoutes'>
               <div className='Divider'></div>
-              <SidebarItem name='Employees' icon='address book' path='/employees' onClick={() => navigate('/employees')} />
               <SidebarItem name='Statistics' icon='chart line' path='/statistics' onClick={() => navigate('/statistics')} />
             </div>
           )}
