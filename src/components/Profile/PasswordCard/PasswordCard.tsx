@@ -3,6 +3,7 @@ import { useState, Dispatch, SetStateAction } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import Header from "../../Common/Header";
 import Input from "../../Common/Input";
+import { FirebaseError } from 'firebase/app';
 
 function PasswordCard() {
   const auth = useAuth();
@@ -17,7 +18,8 @@ function PasswordCard() {
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  // const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
 
   const [updatingPassword, setUpdatingPassword] = useState(false);
 
@@ -52,8 +54,8 @@ function PasswordCard() {
       setUpdatingPassword(false);
     } catch (error) {
       console.error(error);
-      setShowErrorMessage(true);
-      setTimeout(() => setShowErrorMessage(false), 5000);
+      setErrorMessage((error as FirebaseError).message);
+      setTimeout(() => setErrorMessage(undefined), 5000);
       setUpdatingPassword(false);
     }
   }
@@ -70,7 +72,7 @@ function PasswordCard() {
   function canUpdatePassword(): boolean {
     return currentPassword.length > 0 && doPasswordsMatch();
   }
-  
+
   return (
     <div className='PasswordCard ProfileCard'>
       <div className="ui card attached">
@@ -134,9 +136,10 @@ function PasswordCard() {
           Your password was successfully updated.
         </div>
       </div>}
-      {showErrorMessage && <div className="ui negative message">
+      {errorMessage && <div className="ui negative message">
         <div className="header">
-          Your current password was invalid. Please validate and try again.
+          {/* Your current password was invalid. Please validate and try again. */}
+          {errorMessage}
         </div>
       </div>}
     </div>
