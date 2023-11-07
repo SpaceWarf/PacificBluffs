@@ -6,11 +6,11 @@ import { getReceiptsForCurrentShift } from "../../../redux/selectors/receipts";
 import { getCurrentShift } from "../../../redux/selectors/shifts";
 import { currencyFormat } from "../../../utils/currency";
 import ReceiptsDisplay from '../ReceiptsDisplay/ReceiptsDisplay';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import { Shift } from '../../../redux/reducers/shifts';
 import { updateProfileClockedIn, createShift, updateEmployeeCurrentShift } from '../../../utils/firestore';
-import { getDurationAsString } from '../../../utils/time';
+import { getShiftLengthLabel } from '../../../utils/shifts';
 
 function CurrentShift() {
   const { user } = useAuth();
@@ -18,7 +18,6 @@ function CurrentShift() {
   const currentShift = useSelector(getCurrentShift);
   const currentShiftReceipts = useSelector(getReceiptsForCurrentShift);
   const [loading, setLoading] = useState(false);
-  const [now, setNow] = useState(new Date());
 
   async function handleClockIn() {
     if (user) {
@@ -49,15 +48,9 @@ function CurrentShift() {
     }
   }
 
-  function getShiftLengthLabel(): React.ReactNode {
+  function getShiftLengthComponent(): React.ReactNode {
     if (currentShift) {
-      const duration = now.getTime() - new Date(currentShift.start).getTime();
-      const durationStr = getDurationAsString(duration);
-      return duration < 60000 ? (
-        <p><b>You clocked in less than a minute ago</b></p>
-      ) : (
-        <p><b>You've been clocked in for {durationStr}</b></p>
-      );
+      return <p><b>{getShiftLengthLabel(currentShift, true)}</b></p>
     }
   }
 
@@ -79,13 +72,6 @@ function CurrentShift() {
     }, 0);
   }
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setNow(new Date());
-    }, 60000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <div className='CurrentShift'>
       <Header text='Current Shift' decorated />
@@ -93,7 +79,7 @@ function CurrentShift() {
         <div className="content">
           {clockedIn ? (
             <Fragment>
-              <div className='Duration'>{getShiftLengthLabel()}</div>
+              <div className='Duration'>{getShiftLengthComponent()}</div>
               {getShiftSalesLabel()}
               <button
                 className='ui button negative hover-animation'

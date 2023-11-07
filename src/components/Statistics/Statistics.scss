@@ -72,8 +72,35 @@
         }
       }
 
-      .Shifts {
+      .PreviousShifts {
         width: calc(255px + ((100% - 275px) / 2));
+      }
+
+      .CurrentShift {
+        width: auto;
+
+        .ShiftLabel {
+          font-size: 1.1rem;
+          margin-bottom: 10px;
+        }
+
+        button.hover-animation {
+          max-width: 350px;
+
+          .label {
+            width: 105px;
+          }
+
+          &:hover:not(:disabled) {
+            .label {
+              left: calc((100% - 130px) / 2);
+            }
+
+            .IconContainer {
+              right: calc((100% - 130px) / 2);
+            }
+          }
+        }
       }
     }
   }

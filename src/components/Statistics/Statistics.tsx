@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Header from '../Common/Header';
 import Dropdown, { DropdownOption } from '../Common/Dropdown';
 import { ProfileInfo } from '../../redux/reducers/profile';
-import { getProfiles, getReceiptsForEmployee, getShiftsForEmployee, onProfilesSnapshot } from '../../utils/firestore';
+import { getProfiles, getReceiptsForEmployee, getShiftsForEmployee, onProfilesSnapshot, updateEmployeeCurrentShift, updateProfileClockedIn } from '../../utils/firestore';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -15,6 +15,7 @@ import StatsCard from '../Common/StatsCard';
 import { currencyFormat } from '../../utils/currency';
 import { getDatesBetween, isSameDay } from '../../utils/date';
 import ShiftListing from '../Common/ShiftListing';
+import { getShiftLengthLabel } from '../../utils/shifts';
 
 function Statistics() {
   const [employee, setEmployee] = useState<string>('');
@@ -24,6 +25,7 @@ function Statistics() {
   const [end, setEnd] = useState<Dayjs>(dayjs());
   const [dateError, setDateError] = useState<boolean>(false);
   const [shifts, setShifts] = useState<Shift[]>([]);
+  const [currentShift, setCurrentShift] = useState<Shift>();
   const [receipts, setReceipts] = useState<Receipt[]>([]);
   const [generatingReport, setGeneratingReport] = useState<boolean>(false);
 
@@ -50,7 +52,11 @@ function Statistics() {
       getShifts();
       getReceipts();
     }
-  }, [employee, start, end, dateError])
+  }, [employees, employee, start, end, dateError]);
+
+  useEffect(() => {
+    setCurrentShift(shifts.find(shift => !shift.end));
+  }, [shifts]);
 
   const getEmployeeDropdownOptions = (): DropdownOption[] => {
     return employees.map(employee => ({
@@ -142,6 +148,49 @@ function Statistics() {
     return getHoursWorked(shifts, 3600000) * 1000;
   }
 
+  const handleClockOut = () => {
+    setLoading(true);
+    updateProfileClockedIn(employee, false);
+
+    updateEmployeeCurrentShift(employee, {
+      end: new Date().toISOString(),
+      rating: 0,
+      comments: "",
+    });
+    setLoading(false);
+  }
+
+  function getShiftSalesLabel(): React.ReactNode {
+    if (currentShift) {
+      const shiftReceipts = receipts.filter(receipt => receipt.shift === currentShift.id);
+      const sales = shiftReceipts.length;
+      const profit = shiftReceipts.reduce((total, receipt) => {
+        return total + receipt.total + receipt.tip;
+      }, 0);
+
+      if (sales === 0) {
+        return (
+          <p className='ShiftLabel'>
+            <b>{getShiftLengthLabel(currentShift)}</b> and made no sales yet.
+          </p>
+        )
+      } else if (sales === 1) {
+        return (
+          <p className='ShiftLabel'>
+            <b>{getShiftLengthLabel(currentShift)}</b> and made <b>1 sale</b> for <b>{currencyFormat(profit)}</b> in profit.
+          </p>
+        )
+      }
+      return (
+        <p className='ShiftLabel'>
+          <b>{getShiftLengthLabel(currentShift)}</b> and made <b>{sales} sales</b> for <b>{currencyFormat(profit)}</b> in profit.
+        </p>
+      )
+    } else {
+      return <p className='ShiftLabel'>This employee is currently clocked out</p>
+    }
+  }
+
   return (
     <div className="Statistics">
       <Header text='Statistics' decorated />
@@ -223,12 +272,27 @@ function Statistics() {
             </div>
           </div>
           <div className='Row'>
-            <div className='Shifts'>
-              <h2>Shifts</h2>
+            <div className='PreviousShifts'>
+              <h2>Previous Shifts</h2>
               <ShiftListing
                 shifts={getOrderedShifts(shifts)}
                 receipts={getFilteredReceipts(receipts)}
               />
+            </div>
+            <div className='CurrentShift'>
+              <h2>Current Shift</h2>
+              <div>
+                {getShiftSalesLabel()}
+                {currentShift && (
+                  <button
+                    className='ui button negative hover-animation'
+                    onClick={handleClockOut}
+                  >
+                    <p className='label contrast'>Clock Them Out</p>
+                    <p className='IconContainer contrast'><i className='clock icon'></i></p>
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
