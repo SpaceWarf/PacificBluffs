@@ -28,13 +28,14 @@ function TipModal() {
     if (tipOnly || tip >= orderTotal) {
       setTipError(false);
       const tipAmount = tipOnly ? tip : tip - orderTotal;
-      
+
       if (user && currentShift?.id) {
         const receipt: Receipt = {
           employee: user.uid,
           shift: currentShift.id,
           items: order.items,
           combos: order.combos,
+          services: order.services,
           total: orderTotal,
           date: new Date().toISOString(),
           tip: tipAmount,

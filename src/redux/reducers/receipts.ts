@@ -11,6 +11,7 @@ export interface Receipt {
   shift: string;
   items: Quantity[];
   combos: Quantity[];
+  services: Quantity[];
   total: number;
   date: string;
   tip: number;

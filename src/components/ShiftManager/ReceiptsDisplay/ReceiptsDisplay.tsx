@@ -2,7 +2,7 @@ import "./ReceiptsDisplay.scss";
 import { Accordion, Icon } from "semantic-ui-react";
 import { Receipt } from "../../../redux/reducers/receipts";
 import { Fragment, useState } from "react";
-import { Combo, MenuItem } from "../../../redux/reducers/menuItems";
+import { Combo, MenuItem, Service } from "../../../redux/reducers/menuItems";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { currencyFormat } from "../../../utils/currency";
@@ -14,7 +14,7 @@ interface ReceiptsDisplayProps {
 
 function ReceiptsDisplay({ receipts }: ReceiptsDisplayProps) {
   const [activeIndex, setActiveIndex] = useState(-1);
-  const { items, combos } = useSelector((state: RootState) => state.menuItems);
+  const { items, combos, services } = useSelector((state: RootState) => state.menuItems);
 
   function handleExpandReceipt(i: number) {
     setActiveIndex(activeIndex === i ? -1 : i);
@@ -26,6 +26,10 @@ function ReceiptsDisplay({ receipts }: ReceiptsDisplayProps) {
 
   function getCombo(id: string): Combo | undefined {
     return combos.find(combo => combo.id === id);
+  }
+
+  function getService(id: string): Service | undefined {
+    return services.find(service => service.id === id);
   }
 
   function getReceiptTime(receipt: Receipt): string {
@@ -78,6 +82,15 @@ function ReceiptsDisplay({ receipts }: ReceiptsDisplayProps) {
                 <div key={`${receipt.id}-${receiptItem.id}`} className='ReceiptLine'>
                   <p>{item.name} x {receiptItem.quantity}</p>
                   <p>{currencyFormat(item.price * receiptItem.quantity)}</p>
+                </div>
+              )
+            })}
+            {(receipt.services || []).map(receiptService => {
+              const service = getService(receiptService.id);
+              return service && (
+                <div key={`${receipt.id}-${receiptService.id}`} className='ReceiptLine'>
+                  <p>{service.name} x {receiptService.quantity}</p>
+                  <p>{currencyFormat(service.price * receiptService.quantity)}</p>
                 </div>
               )
             })}

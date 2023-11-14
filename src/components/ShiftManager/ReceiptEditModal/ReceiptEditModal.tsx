@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { updateReceipt as updateReceiptInDb } from '../../../utils/firestore';
 import { Quantity } from '../../../redux/reducers/order';
-import { MenuItem } from '../../../redux/reducers/menuItems';
+import { MenuItem, Service } from '../../../redux/reducers/menuItems';
 import { Combo } from '../../../redux/reducers/menuItems';
 import Input from '../../Common/Input';
 
@@ -24,15 +24,18 @@ function ReceiptEditModal({ receipt }: ClockOutModalProps) {
   const [open, setOpen] = useState(false);
   const menuCombos = useSelector((state: RootState) => state.menuItems.combos);
   const menuItems = useSelector((state: RootState) => state.menuItems.items);
+  const menuServices = useSelector((state: RootState) => state.menuItems.services);
   const [comboValues, setComboValues] = useState({} as Values);
   const [itemValues, setItemValues] = useState({} as Values);
+  const [serviceValues, setServiceValues] = useState({} as Values);
   const [search, setSearch] = useState('');
   const [tip, setTip] = useState(receipt.tip);
-  const addOptions = [...menuCombos, ...menuItems];
+  const addOptions = [...menuCombos, ...menuItems, ...menuServices];
 
   function handleConfirm() {
     const updatedItems = [...receipt.items];
     const updatedCombos = [...receipt.combos];
+    const updatedServices = [...(receipt.services || [])];
 
     Object.entries(itemValues).forEach(([id, quantity]) => {
       const itemIndex = updatedItems.findIndex(item => item.id === id);
@@ -58,22 +61,39 @@ function ReceiptEditModal({ receipt }: ClockOutModalProps) {
       }
     });
 
+    Object.entries(serviceValues).forEach(([id, quantity]) => {
+      const serviceIndex = updatedServices.findIndex(service => service.id === id);
+
+      if (serviceIndex === -1 && quantity > 0) {
+        updatedServices.push({ id, quantity });
+      } else if (serviceIndex !== -1 && quantity === 0) {
+        updatedServices.splice(serviceIndex, 1);
+      } else {
+        updatedServices[serviceIndex] = { id, quantity };
+      }
+    });
+
+    console.log(getTotalPrice(updatedItems, updatedCombos, updatedServices))
+
     const updatedReceipt: Receipt = {
       ...receipt,
       items: updatedItems,
       combos: updatedCombos,
-      total: getTotalPrice(updatedItems, updatedCombos),
+      services: updatedServices,
+      total: getTotalPrice(updatedItems, updatedCombos, updatedServices),
       tip,
     };
     updateReceiptInDb(updatedReceipt);
     handleClose();
   }
 
-  function getTotalPrice(items: Quantity[], combos: Quantity[]): number {
-    return [...items, ...combos].reduce((total: number, item: Quantity) => {
-      const menuCombo = menuCombos.find(menuCombo => menuCombo.id === item.id);
-      return total + (item.quantity * (menuCombo?.price || 0));
-    }, 0);
+  function getTotalPrice(items: Quantity[], combos: Quantity[], services: Quantity[]): number {
+    return [...items, ...combos, ...services]
+      .reduce((total: number, item: Quantity) => {
+        const menuCombo = [...menuItems, ...menuCombos, ...menuServices]
+          .find(menuCombo => menuCombo.id === item.id);
+        return total + (item.quantity * (menuCombo?.price || 0));
+      }, 0);
   }
 
   function getComboById(id: string) {
@@ -84,6 +104,10 @@ function ReceiptEditModal({ receipt }: ClockOutModalProps) {
     return menuItems.find(item => item.id === id);
   }
 
+  function getServiceById(id: string) {
+    return menuServices.find(item => item.id === id);
+  }
+
   function handleComboChange(id: string, value: number) {
     setComboValues({ ...comboValues, [id]: value });
   }
@@ -92,13 +116,17 @@ function ReceiptEditModal({ receipt }: ClockOutModalProps) {
     setItemValues({ ...itemValues, [id]: value });
   }
 
-  function handleAddItem(item: MenuItem | Combo) {
+  function handleServiceChange(id: string, value: number) {
+    setServiceValues({ ...serviceValues, [id]: value });
+  }
+
+  function handleAddItem(item: MenuItem | Combo | Service) {
     if ('recipe' in item) {
       setItemValues({ ...itemValues, [item.id]: 1 });
-    }
-
-    if ('items' in item) {
+    } else if ('items' in item) {
       setComboValues({ ...comboValues, [item.id]: 1 });
+    } else {
+      setServiceValues({ ...serviceValues, [item.id]: 1 });
     }
   }
 
@@ -113,6 +141,7 @@ function ReceiptEditModal({ receipt }: ClockOutModalProps) {
   function handleClose() {
     const initialComboValues: Values = {};
     const initialItemValues: Values = {};
+    const initialServiceValues: Values = {};
 
     receipt.combos.forEach(combo => {
       initialComboValues[combo.id] = combo.quantity;
@@ -120,9 +149,13 @@ function ReceiptEditModal({ receipt }: ClockOutModalProps) {
     receipt.items.forEach(item => {
       initialItemValues[item.id] = item.quantity;
     });
+    (receipt.services || []).forEach(service => {
+      initialServiceValues[service.id] = service.quantity;
+    });
 
     setComboValues(initialComboValues);
     setItemValues(initialItemValues);
+    setServiceValues(initialServiceValues);
     setOpen(false);
     setSearch('');
   }
@@ -140,6 +173,7 @@ function ReceiptEditModal({ receipt }: ClockOutModalProps) {
   useEffect(() => {
     const initialComboValues: Values = {};
     const initialItemValues: Values = {};
+    const initialServiceValues: Values = {};
 
     receipt.combos.forEach(combo => {
       initialComboValues[combo.id] = combo.quantity;
@@ -147,10 +181,14 @@ function ReceiptEditModal({ receipt }: ClockOutModalProps) {
     receipt.items.forEach(item => {
       initialItemValues[item.id] = item.quantity;
     });
+    (receipt.services || []).forEach(service => {
+      initialServiceValues[service.id] = service.quantity;
+    });
 
     setComboValues(initialComboValues);
     setItemValues(initialItemValues);
-  }, [receipt.combos, receipt.items]);
+    setServiceValues(initialServiceValues);
+  }, [receipt.combos, receipt.items, receipt.services]);
 
   return (
     <div onClick={e => e.stopPropagation()}>
@@ -197,6 +235,20 @@ function ReceiptEditModal({ receipt }: ClockOutModalProps) {
                       item={menuItem}
                       value={value}
                       onChange={e => handleItemChange(key, e)}
+                      omitDetails
+                    />
+                  );
+                  return null;
+                })}
+                {Object.entries(serviceValues).map(([key, value]) => {
+                  const serviceItem = getServiceById(key);
+
+                  if (serviceItem) return (
+                    <OrderItem
+                      key={key}
+                      item={serviceItem}
+                      value={value}
+                      onChange={e => handleServiceChange(key, e)}
                       omitDetails
                     />
                   );
